@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="/API/">
+    <Project Path="SGCM.Api/SGCM.Api.csproj" />
+  </Folder>
+  <Folder Name="/Application/">
+    <Project Path="SGCM.Applicaction/SGCM.Applicaction.csproj" />
+  </Folder>
+  <Folder Name="/Core/">
+    <Project Path="SGCM.Domain/SGCM.Domain.csproj" />
+    <Project Path="SGCM.Model/SGCM.Model.csproj" />
+  </Folder>
+  <Folder Name="/Infraestructure/">
+    <Project Path="SGCM.Infraestructure/SGCM.Infraestructure.csproj" />
+    <Project Path="SGCM.Persistence/SGCM.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/IOC/">
+    <Project Path="SGCM.IOC/SGCM.IOC.csproj" />
+  </Folder>
+  <Folder Name="/Test/">
+    <Project Path="SGCM.Applicaction.Test/SGCM.Applicaction.Test.csproj" />
+    <Project Path="SGCM.Persistence.Test/SGCM.Persistence.Test.csproj" />
+  </Folder>
+  <Folder Name="/Web/" />
+</Solution>

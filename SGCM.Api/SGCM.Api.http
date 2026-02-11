@@ -1,0 +1,6 @@
+@SGCM.Api_HostAddress = http://localhost:5037
+
+GET {{SGCM.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
