@@ -2,36 +2,23 @@
 
 Proyecto académico desarrollado para la asignatura **Programación II (TDS-006)** en el Instituto Tecnológico de Las Américas (ITLA).
 
-## 👨‍💻 Autores
+## Autores
 
 - **José Luis Beltre Cordero** - 2025-1241
 - **Aslan Guzmán** - 2025-1177
 
-## 📋 Descripción
+## Descripción
 
 Sistema web para la gestión integral de citas médicas en clínicas y hospitales, desarrollado con arquitectura en capas utilizando ASP.NET Core y Nuxt.js.
 
 ### Características Principales
 
-- ✅ Gestión de citas médicas (crear, consultar, cancelar, reprogramar)
-- ✅ Control de disponibilidad de médicos
-- ✅ Sistema de notificaciones automáticas (Email/SMS)
-- ✅ Gestión de usuarios (Pacientes, Médicos, Administradores)
-- ✅ Auditoría y trazabilidad completa
-- ✅ Reportes operativos
-
-## 🏗️ Arquitectura
-
-El proyecto implementa una **Arquitectura en Capas (Layered Architecture)** con clara separación de responsabilidades:
-
-```
-SGCM/
-├── SGCM.Domain          # Entidades y lógica de negocio
-├── SGCM.Application     # Casos de uso y servicios
-├── SGCM.Persistence     # Acceso a datos y repositorios
-├── SGCM.API             # API REST con ASP.NET Core
-└── Web/                 # Frontend con Nuxt.js
-```
+-  Gestión de citas médicas (crear, consultar, cancelar, reprogramar)
+-  Control de disponibilidad de médicos
+-  Sistema de notificaciones automáticas (Email/SMS)
+-  Gestión de usuarios (Pacientes, Médicos, Administradores)
+-  Auditoría y trazabilidad completa
+-  Reportes operativos
 
 ## 🛠️ Tecnologías
 
@@ -51,15 +38,15 @@ SGCM/
 - **SendGrid** - Envío de correos electrónicos
 
 
-## 📝 Estado del Proyecto
+## Estado del Proyecto
 
-🚧 **En Desarrollo** - Proyecto académico activo
+**En Desarrollo** - Proyecto académico activo
 
-## 📄 Licencia
+## Licencia
 
 Este proyecto es de uso académico para la asignatura Programación II del ITLA.
 
-## 👨‍🏫 Profesor
+## Profesor
 
 **Francis Ramírez**  
 Programación II – TDS-006
