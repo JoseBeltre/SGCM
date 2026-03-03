@@ -1,6 +1,6 @@
 ﻿namespace SGCM.Domain.Base
 {
-    public abstract class BaseEntity : AuditableEntity
+    public abstract class BaseEntity
     {
         public int Id { get; set; }
     }
