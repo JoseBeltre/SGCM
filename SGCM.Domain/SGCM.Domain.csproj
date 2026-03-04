@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Citas\" />
-    <Folder Include="Entities\Catalogos\" />
-    <Folder Include="Entities\Auditoria\" />
     <Folder Include="Entities\Usuarios\" />
     <Folder Include="Repository\" />
   </ItemGroup>
