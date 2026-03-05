@@ -7,9 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Citas\" />
-    <Folder Include="Entities\Catalogos\" />
-    <Folder Include="Entities\Auditoria\" />
+    <Compile Remove="Entities\Auditoria\**" />
+    <Compile Remove="Entities\Catalogos\**" />
+    <Compile Remove="Entities\Citas\**" />
+    <EmbeddedResource Remove="Entities\Auditoria\**" />
+    <EmbeddedResource Remove="Entities\Catalogos\**" />
+    <EmbeddedResource Remove="Entities\Citas\**" />
+    <None Remove="Entities\Auditoria\**" />
+    <None Remove="Entities\Catalogos\**" />
+    <None Remove="Entities\Citas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Entities\Usuarios\" />
     <Folder Include="Repository\" />
   </ItemGroup>
