@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SGCM.Domain.Entities.Enums
 {
-    public enum NotificacionStatus
+    public enum NotificationStatus
     {
         Pending,
         Sent,
