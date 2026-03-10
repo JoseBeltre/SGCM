@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SGCM.Domain.Entities.Enums
+namespace SGCM.Domain.Enums
 {
-    public enum ExceptionType
+    public enum NotificacionStatus
     {
-        Vacations,
-        Licence,
-        ExtraAvailability,
+        Pending,
+        Sent,
+        Failed,
     }
 }
