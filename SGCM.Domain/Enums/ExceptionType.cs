@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SGCM.Domain.Entities.Enums
+namespace SGCM.Domain.Enums
 {
-    public enum NotificationType
+    public enum ExceptionType
     {
-        Email,
-        SMS,
-        Both
+        Vacations,
+        Licence,
+        ExtraAvailability,
     }
 }

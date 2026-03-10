@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SGCM.Domain.Entities.Enums
+namespace SGCM.Domain.Enums
 {
-    public enum NotificationStatus
+    public enum NotificationType
     {
-        Pending,
-        Sent,
-        Failed,
+        Email,
+        SMS,
+        Both
     }
 }
