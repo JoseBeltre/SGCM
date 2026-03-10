@@ -1,6 +1,6 @@
 ﻿using SGCM.Domain.Base;
 using SGCM.Domain.Entities;
-using SGCM.Domain.Entities.Enums;
+using SGCM.Domain.Enums;
 
 namespace SGCM.Domain.Repository
 {
