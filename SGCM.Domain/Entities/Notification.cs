@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 namespace SGCM.Domain.Entities
 {
     [Table("Notifications")]
-    public class Notifications : BaseEntity
+    public class Notification : BaseEntity
     {
         [Column("NotificationId")]
         [Key]
         public override int Id { get; set; }
         public int AppointmentId { get; set; }
         public int UserId { get; set; }
-        public NotifactionType NotificationType { get; set; }
+        public NotificationType NotificationType { get; set; }
         public required string EventType { get; set; }
         public string? Message { get; set; }
         public string? Subject { get; set; }
-        public NotificacionStatus Status { get; set; }
+        public NotificationStatus Status { get; set; }
         public DateTime SentAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public int SendAttempts { get; set; }

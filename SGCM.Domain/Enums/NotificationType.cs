@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SGCM.Domain.Enums
 {
-    public enum NotifactionType
+    public enum NotificationType
     {
         Email,
         SMS,
