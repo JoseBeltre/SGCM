@@ -6,7 +6,7 @@ namespace SGCM.Domain.Repository
 {
     public interface IAuditLogRepository
     {
-        Task<OperationResult> AddAsync(AuditLog auditLog);
+        Task<OperationResult<AuditLog>> AddAsync(AuditLog auditLog);
         Task<OperationResult<AuditLog>> GetByIdAsync(int logId);
         Task<OperationResult<List<AuditLog>>> GetByUserIdAsync(int userId);
         Task<OperationResult<List<AuditLog>>> GetByEntityAsync(EntityType entityType, int entityId);
