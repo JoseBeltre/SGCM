@@ -10,6 +10,14 @@ namespace SGCM.Domain.Services.Interfaces
 {
     public interface IAuditLogsService
     {
-        Task<OperationResult<bool>> RegisterLogAsync(int userId, EntityType entityType, int entityId, Actions action, string? previousValues, string? newValues, string? ipAddress, string? userAgent);
+        Task<OperationResult<bool>> RegisterLogAsync(
+            int userId,
+            EntityType entityType,
+            int entityId,
+            Actions action,
+            string? previousValues,
+            string? newValues,
+            string? ipAddress,
+            string? userAgent);
     }
 }
