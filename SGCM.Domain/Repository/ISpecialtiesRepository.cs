@@ -6,5 +6,6 @@ namespace SGCM.Domain.Repository
     public interface ISpecialtiesRepository : IBaseRepository<Specialties>
     {
         Task<OperationResult<List<Specialties>>> GetActiveAsync(); 
+        Task<OperationResult<bool>> DeactivateAsync(int specialtyId);
     }
 }
