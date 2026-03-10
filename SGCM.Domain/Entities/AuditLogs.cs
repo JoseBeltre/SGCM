@@ -1,5 +1,5 @@
 ﻿using SGCM.Domain.Base;
-using SGCM.Domain.Entities.Enums;
+using SGCM.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
