@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SGCM.Domain.Services.Interfaces
 {
-    public interface IAvailabilitiesService
+    public interface IAvailabilityService
     {
         Task<OperationResult<bool>> IsDoctorAvailableAsync(int doctorId, DateTime appointementDate, TimeSpan startTime, TimeSpan endTime);
     }
