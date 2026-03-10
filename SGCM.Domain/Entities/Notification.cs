@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace SGCM.Domain.Entities
 {
     [Table("Notifications")]
-    public class Notifications : BaseEntity
+    public class Notification : BaseEntity
     {
         [Column("NotificationId")]
         [Key]
