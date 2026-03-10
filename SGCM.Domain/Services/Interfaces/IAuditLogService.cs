@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SGCM.Domain.Services.Interfaces
 {
-    public interface IAuditLogsService
+    public interface IAuditLogService
     {
         Task<OperationResult<bool>> RegisterLogAsync(
             int userId,

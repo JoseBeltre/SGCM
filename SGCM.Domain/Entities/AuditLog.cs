@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SGCM.Domain.Entities
 {
-    public class AuditLogs : BaseEntity
+    public class AuditLog : BaseEntity
     {
         public override int Id { get; set; }
         public int UserId { get; set; }
