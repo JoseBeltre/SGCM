@@ -1,4 +1,5 @@
 ﻿using SGCM.Domain.Base;
+using SGCM.Domain.Entities;
 using SGCM.Domain.Repository;
 using SGCM.Domain.Services.Interfaces;
 
@@ -28,7 +29,7 @@ namespace SGCM.Domain.Services
             if (!aResult.IsSuccess)
                 return OperationResult<bool>.Failure("Could not retrieve availabilibity");
 
-            var availabilities = aResult.Data;
+            var availabilities = aResult.Data ?? new List<Availabilities>();
             // Obtener el día de la semana de la fecha de la cita
             var dayOfWeek = appointmentDate.DayOfWeek.ToString();
             // Filtrar las disponibilidades del doctor por el día de la semana y si están activas
