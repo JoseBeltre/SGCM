@@ -9,5 +9,6 @@ namespace SGCM.Domain.Repository
         Task<OperationResult<List<TEntity>>> GetAllAsync();
         Task<OperationResult<TEntity?>> UpdateAsync(TEntity entity);
         Task<OperationResult> DeleteAsync(int id);
+        Task<OperationResult<bool>> ExistsAsync(int id);
     }
 }
