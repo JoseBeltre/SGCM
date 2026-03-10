@@ -8,12 +8,12 @@ namespace SGCM.Domain.Enums
 {
     public enum DayOfWeek
     {
-        Monday,
-        Tuesday,
-        Wednesday,
-        Thursday,
-        Friday,
-        Saturday,
-        Sunday
+        Domingo = 0,
+        Lunes = 1,
+        Martes = 2,
+        Miercoles = 3,
+        Jueves = 4,
+        Viernes = 5,
+        Sabado = 6
     }
 }
