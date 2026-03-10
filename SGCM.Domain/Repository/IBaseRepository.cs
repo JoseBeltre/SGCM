@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SGCM.Domain.Base;
 
 namespace SGCM.Domain.Repository
 {
-    internal interface IBaseRepository
+    public interface IBaseRepository<TEntity> where TEntity: BaseEntity
     {
+        Task<OperationResult<TEntity>> AddAsync(TEntity entity);
+        Task<OperationResult<TEntity?>> GetByIdAsync(int id);
+        Task<OperationResult<List<TEntity>>> GetAllAsync();
+        Task<OperationResult<TEntity?>> UpdateAsync(TEntity entity);
+        Task<OperationResult> DeleteAsync(int id);
+        Task<OperationResult<bool>> ExistsAsync(int id);
     }
 }
