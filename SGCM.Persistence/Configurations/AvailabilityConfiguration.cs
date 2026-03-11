@@ -39,9 +39,9 @@ namespace SGCM.Persistence.Configurations
 
             builder.Property(x => x.UpdatedAt);
 
-            //builder.HasOne<Doctor>()
-            //       .WithMany()
-            //       .HasForeignKey(x => x.DoctorId);
+            builder.HasOne<Doctor>()
+                   .WithMany()
+                   .HasForeignKey(x => x.DoctorId);
         }
 
     }

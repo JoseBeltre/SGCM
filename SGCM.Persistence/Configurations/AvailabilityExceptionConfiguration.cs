@@ -34,9 +34,9 @@ namespace SGCM.Persistence.Configurations
             builder.Property(x => x.CreatedAt)
                    .HasDefaultValueSql("GETDATE()");
 
-            //builder.HasOne<Doctor>()
-            //       .WithMany()
-            //       .HasForeignKey(x => x.DoctorId);
+            builder.HasOne<Doctor>()
+                   .WithMany()
+                   .HasForeignKey(x => x.DoctorId);
         }
     }
 }
