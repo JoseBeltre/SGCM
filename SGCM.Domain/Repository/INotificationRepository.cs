@@ -4,7 +4,7 @@ using SGCM.Domain.Enums;
 
 namespace SGCM.Domain.Repository
 {
-    public interface INotificationsRepository : IBaseRepository<Notification>
+    public interface INotificationRepository : IBaseRepository<Notification>
     {
         Task<OperationResult<List<Notification>>> GetByUserIdAsync(int userId);
         Task<OperationResult<List<Notification>>> GetByAppointmentIdAsync(int appointmentId);

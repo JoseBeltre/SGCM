@@ -5,9 +5,9 @@ namespace SGCM.Domain.Services
 {
     public class SpecialtiesService : ISpecialtiesService
     {
-        private readonly ISpecialtiesRepository _specialtiesRepository;
+        private readonly ISpecialtyRepository _specialtiesRepository;
         private readonly IDoctorRepository _doctorRepository;
-        public SpecialtiesService(ISpecialtiesRepository specialtiesRepository, IDoctorRepository doctorRepository)
+        public SpecialtiesService(ISpecialtyRepository specialtiesRepository, IDoctorRepository doctorRepository)
         {
             _specialtiesRepository = specialtiesRepository;
             _doctorRepository = doctorRepository;
