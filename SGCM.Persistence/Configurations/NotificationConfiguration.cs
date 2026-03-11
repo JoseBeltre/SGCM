@@ -54,13 +54,13 @@ namespace SGCM.Persistence.Configurations
             builder.Property(x => x.ErrorDetail)
                    .HasMaxLength(500);
 
-            //builder.HasOne<Appointment>()
-            //       .WithMany()
-            //       .HasForeignKey(x => x.AppointmentId);
+            builder.HasOne<Appointment>()
+                   .WithMany()
+                   .HasForeignKey(x => x.AppointmentId);
 
-            //builder.HasOne<User>()
-            //       .WithMany()
-            //       .HasForeignKey(x => x.UserId);
+            builder.HasOne<User>()
+                   .WithMany()
+                   .HasForeignKey(x => x.UserId);
         }
     }
     }

@@ -46,9 +46,9 @@ namespace SGCM.Persistence.Configurations
                    .HasColumnName("ActionDate")
                    .HasDefaultValueSql("GETDATE()");
 
-            //builder.HasOne<User>()
-            //       .WithMany()
-            //       .HasForeignKey(x => x.UserId);
+            builder.HasOne<User>()
+                   .WithMany()
+                   .HasForeignKey(x => x.UserId);
         }
     }
 }

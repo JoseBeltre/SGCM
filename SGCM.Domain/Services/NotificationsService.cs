@@ -8,11 +8,11 @@ namespace SGCM.Domain.Services
 {
     public class NotificationsService : INotificationsService
     {
-        private readonly INotificationsRepository _notificationsRepository;
+        private readonly INotificationRepository _notificationsRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly IAppointmentsRepository _appointmentsRepository;
 
-        public NotificationsService(INotificationsRepository notificationsRepository, IUsersRepository usersRepository, IAppointmentsRepository appointmentsRepository)
+        public NotificationsService(INotificationRepository notificationsRepository, IUsersRepository usersRepository, IAppointmentsRepository appointmentsRepository)
         {
             _notificationsRepository = notificationsRepository;
             _usersRepository = usersRepository;
