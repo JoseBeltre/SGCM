@@ -4,9 +4,9 @@ using SGCM.Domain.Entities;
 using SGCM.Domain.Repository;
 using SGCM.Persistence.Context;
 
-namespace SGCM.Persistence.Interfaces
+namespace SGCM.Persistence.Repositories
 {
-    public class SpecialtyRepository : ISpecialtiesRepository
+    public class SpecialtyRepository : ISpecialtyRepository
     {
         private readonly AppDbContext _context;
 
