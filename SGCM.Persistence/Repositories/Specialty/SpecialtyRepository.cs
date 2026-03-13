@@ -15,7 +15,6 @@ namespace SGCM.Persistence.Repositories
             _context = context;
         }
 
-
         public async Task<OperationResult<List<Specialty>>> GetAllAsync()
         {
             var specialties = await _context.Specialty.ToListAsync();
@@ -51,11 +50,11 @@ namespace SGCM.Persistence.Repositories
 
         public async Task<OperationResult<Specialty?>> UpdateAsync(Specialty entity)
         {
-            bool exists = await _context.Specialty.AnyAsync(s => s.Id == entity.Id);
-            if (!exists)
-                return OperationResult<Specialty?>.Failure("Specialty not found.");
+            var existing = await _context.Notifications.FindAsync(entity.Id);
+            if (existing == null)
+                return OperationResult<Specialty?>.Failure("Notification not found");
 
-            _context.Specialty.Update(entity);
+            _context.Entry(existing).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
             return OperationResult<Specialty?>.Success(entity);
         }
@@ -63,7 +62,7 @@ namespace SGCM.Persistence.Repositories
         public async Task<OperationResult<bool>> DeactivateAsync(int specialtyId)
         {
             var entity = await _context.Specialty.FindAsync(specialtyId);
-            if (entity == null) 
+            if (entity == null)
                 return OperationResult<bool>.Failure("Specialty not found.");
 
             entity.IsActive = false;
@@ -77,7 +76,7 @@ namespace SGCM.Persistence.Repositories
             var entity = await _context.Specialty.FindAsync(id);
             if (entity == null)
                 return OperationResult.Failure("Specialty not found.");
-            
+
             if (entity.IsActive)
                 return OperationResult.Failure("Cannot delete an active specialty. Please deactivate it first.");
 
