@@ -19,6 +19,7 @@ namespace SGCM.Persistence.Configurations
 
             builder.Property(x => x.DayOfWeek)
                    .HasMaxLength(15)
+                   .HasConversion<string>()
                    .IsRequired();
 
             builder.Property(x => x.StartTime)

@@ -29,6 +29,7 @@ namespace SGCM.Persistence.Configurations
 
             builder.Property(x => x.ExceptionType)
                    .HasMaxLength(30)
+                   .HasConversion<string>()
                    .IsRequired();
 
             builder.Property(x => x.CreatedAt)
