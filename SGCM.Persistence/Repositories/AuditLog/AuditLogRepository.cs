@@ -1,35 +1,64 @@
-﻿using SGCM.Domain.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using SGCM.Domain.Base;
 using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
+using SGCM.Persistence.Context;
 
 namespace SGCM.Persistence.Repositories
 {
     public class AuditLogRepository : IAuditLogRepository
     {
-        public Task<OperationResult<AuditLog>> AddAsync(AuditLog auditLog)
+        private readonly AppDbContext _context;
+
+        public AuditLogRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<OperationResult<List<AuditLog>>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
+        public async Task<OperationResult<AuditLog>> AddAsync(AuditLog auditLog)
         {
-            throw new NotImplementedException();
+            await _context.AuditLogs.AddAsync(auditLog);
+            await _context.SaveChangesAsync();
+
+            return OperationResult<AuditLog>.Success(auditLog);
         }
 
-        public Task<OperationResult<List<AuditLog>>> GetByEntityAsync(EntityType entityType, int entityId)
+        public async Task<OperationResult<List<AuditLog>>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            var logs = await _context.AuditLogs
+                .Where(l => l.ActionDate >= startDate && l.ActionDate <= endDate)
+                .ToListAsync();
+
+            return OperationResult<List<AuditLog>>.Success(logs);
         }
 
-        public Task<OperationResult<AuditLog>> GetByIdAsync(int logId)
+        public async Task<OperationResult<List<AuditLog>>> GetByEntityAsync(EntityType entityType, int entityId)
         {
-            throw new NotImplementedException();
+            var logs = await _context.AuditLogs
+                .Where(l => l.EntityType == entityType && l.EntityId == entityId)
+                .ToListAsync();
+
+            return OperationResult<List<AuditLog>>.Success(logs);
         }
 
-        public Task<OperationResult<List<AuditLog>>> GetByUserIdAsync(int userId)
+        public async Task<OperationResult<AuditLog>> GetByIdAsync(int logId)
         {
-            throw new NotImplementedException();
+            var log = await _context.AuditLogs.FindAsync(logId);
+
+            if (log == null)
+                return OperationResult<AuditLog>.Failure("Audit log not found");
+
+            return OperationResult<AuditLog>.Success(log);
+        }
+
+        public async Task<OperationResult<List<AuditLog>>> GetByUserIdAsync(int userId)
+        {
+            var logs = await _context.AuditLogs
+                .Where(l => l.UserId == userId)
+                .ToListAsync();
+
+            return OperationResult<List<AuditLog>>.Success(logs);
         }
     }
 }
