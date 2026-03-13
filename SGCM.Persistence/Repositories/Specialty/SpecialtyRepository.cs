@@ -50,13 +50,13 @@ namespace SGCM.Persistence.Repositories
 
         public async Task<OperationResult<Specialty?>> UpdateAsync(Specialty entity)
         {
-            var existing = await _context.Notifications.FindAsync(entity.Id);
+            var existing = await _context.Specialty.FindAsync(entity.Id);
             if (existing == null)
                 return OperationResult<Specialty?>.Failure("Notification not found");
 
             _context.Entry(existing).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
-            return OperationResult<Specialty?>.Success(entity);
+            return OperationResult<Specialty?>.Success(existing);
         }
 
         public async Task<OperationResult<bool>> DeactivateAsync(int specialtyId)
