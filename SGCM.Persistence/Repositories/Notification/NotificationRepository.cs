@@ -78,7 +78,7 @@ namespace SGCM.Persistence.Repositories
 
             _context.Entry(existing).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
-            return OperationResult<Notification?>.Success(entity);
+            return OperationResult<Notification?>.Success(existing);
         }
 
         public async Task<OperationResult> DeleteAsync(int id)
