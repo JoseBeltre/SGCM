@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGCM.Domain.Entities;
 
-namespace SGCM.Persistence.Configurations
+namespace SGCM.Persistence.Configurations.AuditLog
 {
     public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
     {
