@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGCM.Domain.Entities;
 
-namespace SGCM.Persistence.Configurations.AuditLog
+namespace SGCM.Persistence.Configurations
 {
     public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
     {
@@ -21,6 +21,7 @@ namespace SGCM.Persistence.Configurations.AuditLog
 
             builder.Property(x => x.EntityType)
                    .HasMaxLength(50)
+                   .HasConversion<string>()
                    .IsRequired();
 
             builder.Property(x => x.EntityId)
@@ -28,6 +29,7 @@ namespace SGCM.Persistence.Configurations.AuditLog
 
             builder.Property(x => x.Action)
                    .HasMaxLength(50)
+                   .HasConversion<string>()
                    .IsRequired();
 
             builder.Property(x => x.PreviousValues)
@@ -43,7 +45,6 @@ namespace SGCM.Persistence.Configurations.AuditLog
                    .HasMaxLength(500);
 
             builder.Property(x => x.ActionDate)
-                   .HasColumnName("ActionDate")
                    .HasDefaultValueSql("GETDATE()");
 
             builder.HasOne<User>()
