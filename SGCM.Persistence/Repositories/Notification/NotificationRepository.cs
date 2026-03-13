@@ -1,65 +1,95 @@
-﻿using SGCM.Domain.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using SGCM.Domain.Base;
 using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
+using SGCM.Persistence.Context;
 
 namespace SGCM.Persistence.Repositories
 {
     public class NotificationRepository : INotificationRepository
     {
-        public Task<OperationResult<Notification>> AddAsync(Notification entity)
+        private readonly AppDbContext _context;
+
+        public NotificationRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<OperationResult<List<Notification>>> GetAllAsync()
+        {
+            var notifications = await _context.Notifications.ToListAsync();
+            return OperationResult<List<Notification>>.Success(notifications);
         }
 
-        public Task<OperationResult> DeleteAsync(int id)
+        public async Task<OperationResult<List<Notification>>> GetByAppointmentIdAsync(int appointmentId)
         {
-            throw new NotImplementedException();
+            var notifications = await _context.Notifications.Where(n => n.AppointmentId == appointmentId).ToListAsync();
+            return OperationResult<List<Notification>>.Success(notifications);
         }
 
-        public Task<OperationResult<bool>> ExistsAsync(int id)
+        public async Task<OperationResult<List<Notification>>> GetByEventTypeAsync(string eventType)
         {
-            throw new NotImplementedException();
+            var notifications = await _context.Notifications.Where(n => n.EventType == eventType).ToListAsync();
+            return OperationResult<List<Notification>>.Success(notifications);
         }
 
-        public Task<OperationResult<List<Notification>>> GetAllAsync()
+        public async Task<OperationResult<Notification?>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var notification = await _context.Notifications.FindAsync(id);
+            return OperationResult<Notification?>.Success(notification);
         }
 
-        public Task<OperationResult<List<Notification>>> GetByAppointmentIdAsync(int appointmentId)
+        public async Task<OperationResult<List<Notification>>> GetByStatusAsync(NotificationStatus status)
         {
-            throw new NotImplementedException();
+            var notifications = await _context.Notifications.Where(n => n.Status == status).ToListAsync();
+            return OperationResult<List<Notification>>.Success(notifications);
         }
 
-        public Task<OperationResult<List<Notification>>> GetByEventTypeAsync(string eventType)
+        public async Task<OperationResult<List<Notification>>> GetByTypeAsync(NotificationType type)
         {
-            throw new NotImplementedException();
+            var notifications = await _context.Notifications.Where(n => n.NotificationType == type).ToListAsync();
+            return OperationResult<List<Notification>>.Success(notifications);
         }
 
-        public Task<OperationResult<Notification?>> GetByIdAsync(int id)
+        public async Task<OperationResult<List<Notification>>> GetByUserIdAsync(int userId)
         {
-            throw new NotImplementedException();
+            var notifications = await _context.Notifications.Where(n => n.UserId == userId).ToListAsync();
+            return OperationResult<List<Notification>>.Success(notifications);
         }
 
-        public Task<OperationResult<List<Notification>>> GetByStatusAsync(NotificationStatus status)
+        public async Task<OperationResult<bool>> ExistsAsync(int id)
         {
-            throw new NotImplementedException();
+            bool exists = await _context.Notifications.AnyAsync(n => n.Id == id);
+            return OperationResult<bool>.Success(exists);
         }
 
-        public Task<OperationResult<List<Notification>>> GetByTypeAsync(NotificationType type)
+        public async Task<OperationResult<Notification>> AddAsync(Notification entity)
         {
-            throw new NotImplementedException();
+            await _context.Notifications.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return OperationResult<Notification>.Success(entity);
         }
 
-        public Task<OperationResult<List<Notification>>> GetByUserIdAsync(int userId)
+        public async Task<OperationResult<Notification?>> UpdateAsync(Notification entity)
         {
-            throw new NotImplementedException();
+            var existing = await _context.Notifications.FindAsync(entity.Id);
+            if (existing == null)
+                return OperationResult<Notification?>.Failure("Notification not found");
+
+            _context.Entry(existing).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+            return OperationResult<Notification?>.Success(entity);
         }
 
-        public Task<OperationResult<Notification?>> UpdateAsync(Notification entity)
+        public async Task<OperationResult> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _context.Notifications.FindAsync(id);
+            if (entity == null)
+                return OperationResult<bool>.Failure("Notification not found");
+
+            _context.Notifications.Remove(entity);
+            await _context.SaveChangesAsync();
+            return OperationResult.Success();
         }
     }
 }
