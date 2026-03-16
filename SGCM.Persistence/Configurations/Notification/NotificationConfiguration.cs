@@ -24,6 +24,7 @@ namespace SGCM.Persistence.Configurations
 
             builder.Property(x => x.NotificationType)
                    .HasMaxLength(20)
+                   .HasConversion<string>()
                    .IsRequired();
 
             builder.Property(x => x.EventType)
