@@ -3,11 +3,11 @@ using SGCM.Domain.Repository;
 using SGCM.Domain.Services.Interfaces;
 namespace SGCM.Domain.Services
 {
-    public class SpecialtiesService : ISpecialtiesService
+    public class SpecialtyDomainService : ISpecialtiyDomainService
     {
         private readonly ISpecialtyRepository _specialtiesRepository;
         private readonly IDoctorRepository _doctorRepository;
-        public SpecialtiesService(ISpecialtyRepository specialtiesRepository, IDoctorRepository doctorRepository)
+        public SpecialtyDomainService(ISpecialtyRepository specialtiesRepository, IDoctorRepository doctorRepository)
         {
             _specialtiesRepository = specialtiesRepository;
             _doctorRepository = doctorRepository;
