@@ -1,10 +1,11 @@
-﻿using SGCM.Domain.Base;
+﻿using SGCM.Applicaction.Interfaces.Notification;
+using SGCM.Domain.Base;
 using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
 using SGCM.Domain.Services.Interfaces;
 
-namespace SGCM.Domain.Services
+namespace SGCM.Applicaction.Services.Notification
 {
     public class NotificationsService : INotificationsService
     {

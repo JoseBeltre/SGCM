@@ -2,7 +2,7 @@
 using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 
-namespace SGCM.Domain.Services.Interfaces
+namespace SGCM.Applicaction.Interfaces.Notification
 {
     public interface INotificationsService
     {
