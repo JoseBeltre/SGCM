@@ -4,7 +4,7 @@ using SGCM.Domain.Enums;
 
 namespace SGCM.Domain.Services.Interfaces
 {
-    public interface IAuditLogService
+    public interface IAuditLogDomainService
     {
         Task<OperationResult<AuditLog>> RecordCreateAsync<T>(
             int userId,
