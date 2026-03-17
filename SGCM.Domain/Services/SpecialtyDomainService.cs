@@ -22,7 +22,7 @@ namespace SGCM.Domain.Services
                 return OperationResult<bool>.Failure("Specialty not found");
 
             var doctorsWithSpecialty = await _doctorRepository.GetDoctorsBySpecialtyIdAsync(specialtyId);
-            if (doctorsWithSpecialty.Any())
+            if (doctorsWithSpecialty.Data.Any())
                 return OperationResult<bool>.Failure("Specialty cannot be deactivated because there are doctors associated with it.");
 
             return OperationResult<bool>.Success(true, "Specialty can be safely deactivated.");
