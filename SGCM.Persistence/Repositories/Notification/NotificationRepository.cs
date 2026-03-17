@@ -85,7 +85,7 @@ namespace SGCM.Persistence.Repositories
         {
             var entity = await _context.Notifications.FindAsync(id);
             if (entity == null)
-                return OperationResult<bool>.Failure("Notification not found");
+                return OperationResult.Failure("Notification not found");
 
             _context.Notifications.Remove(entity);
             await _context.SaveChangesAsync();
