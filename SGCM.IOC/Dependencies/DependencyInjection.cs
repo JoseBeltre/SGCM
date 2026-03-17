@@ -2,19 +2,20 @@
 using SGCM.IOC.Dependencies.AuditLog;
 using SGCM.IOC.Dependencies.Availability;
 using SGCM.IOC.Dependencies.Notification;
+using SGCM.IOC.Dependencies.Specialty;
 
 namespace SGCM.IOC.Dependencies
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddSGCM(IServiceCollection services)
+        public static IServiceCollection AddSGCM(this IServiceCollection services)
         {
-            services = NotificationDependency.Register(services);
-            services = AvailabilityExceptionDependency.Register(services);
-            services = AvailabilityDependency.Register(services);
-            services = AuditLogDependency.Register(services);
-
-            return services;
+            return services
+                .AddNotification()
+                .AddAuditLog()
+                .AddAvailability()
+                .AddAvailabilityException()
+                .AddSpecialty();
         }
     }
 }

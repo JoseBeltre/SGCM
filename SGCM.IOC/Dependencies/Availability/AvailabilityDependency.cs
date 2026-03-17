@@ -8,7 +8,7 @@ namespace SGCM.IOC.Dependencies.Availability
 {
     public static class AvailabilityDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddAvailability(this IServiceCollection services)
         {
             services.AddScoped<IAvailabilityService, AvailabilityService>();
             services.AddScoped<IAvailabilityDomainService, AvailabilityDomainService>();

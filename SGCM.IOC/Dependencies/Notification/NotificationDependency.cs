@@ -8,7 +8,7 @@ namespace SGCM.IOC.Dependencies.Notification
 {
     public static class NotificationDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddNotification(this IServiceCollection services)
         {
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<INotificationDomainService, NotificationsDomainService>();

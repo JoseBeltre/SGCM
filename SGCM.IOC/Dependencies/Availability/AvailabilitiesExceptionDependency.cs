@@ -6,7 +6,7 @@ namespace SGCM.IOC.Dependencies.Availability
 {
     public static class AvailabilityExceptionDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddAvailabilityException(this IServiceCollection services)
         {
             services.AddScoped<IAvailabilityExceptionService, AvailabilityExceptionService>();
 

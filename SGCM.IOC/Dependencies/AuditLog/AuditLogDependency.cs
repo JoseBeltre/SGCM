@@ -6,7 +6,7 @@ namespace SGCM.IOC.Dependencies.AuditLog
 {
     public static class AuditLogDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddAuditLog(this IServiceCollection services)
         {
             services.AddScoped<IAuditLogDomainService, AuditLogDomainService>();
 
