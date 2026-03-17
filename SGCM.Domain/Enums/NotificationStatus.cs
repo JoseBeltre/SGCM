@@ -8,8 +8,8 @@ namespace SGCM.Domain.Enums
 {
     public enum NotificationStatus
     {
-        Pending,
-        Sent,
-        Failed,
+        Pendiente,
+        Enviada,
+        Fallida,
     }
 }

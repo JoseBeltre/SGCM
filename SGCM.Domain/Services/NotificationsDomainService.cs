@@ -45,10 +45,10 @@ namespace SGCM.Domain.Services
                 AppointmentId = appointmentId,
                 UserId = userId,
                 EventType = eventType,
-                NotificationType = type ?? NotificationType.Both,
+                NotificationType = type ?? NotificationType.Ambos,
                 Subject = subject,
                 Message = message,
-                Status = NotificationStatus.Pending,
+                Status = NotificationStatus.Pendiente,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -67,10 +67,10 @@ namespace SGCM.Domain.Services
 
             var notification = notificationResult.Data;
 
-            if (notification.Status != NotificationStatus.Pending)
+            if (notification.Status != NotificationStatus.Pendiente)
                 return OperationResult<bool>.Failure("Only pending notifications can be marked as sent");
 
-            notification.Status = NotificationStatus.Sent;
+            notification.Status = NotificationStatus.Enviada;
             notification.SentAt = DateTime.UtcNow;
             notification.SendAttempts += 1;
 
