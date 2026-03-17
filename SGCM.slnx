@@ -3,7 +3,7 @@
     <Project Path="SGCM.ApiWeb/SGCM.ApiWeb.csproj" Id="2bf2e69d-0d3b-4bc0-aec8-41a58fdec567" />
   </Folder>
   <Folder Name="/Application/">
-    <Project Path="SGCM.Applicaction/SGCM.Application.csproj" />
+    <Project Path="SGCM.Application/SGCM.Application.csproj" />
   </Folder>
   <Folder Name="/Core/">
     <Project Path="SGCM.Domain/SGCM.Domain.csproj" />
@@ -17,7 +17,7 @@
     <Project Path="SGCM.IOC/SGCM.IOC.csproj" />
   </Folder>
   <Folder Name="/Test/">
-    <Project Path="SGCM.Applicaction.Test/SGCM.Applicaction.Test.csproj" />
+    <Project Path="SGCM.Applicaction.Test/SGCM.Application.Test.csproj" />
     <Project Path="SGCM.Persistence.Test/SGCM.Persistence.Test.csproj" />
   </Folder>
   <Folder Name="/Web/" />

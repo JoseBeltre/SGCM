@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SGCM.Api\SGCM.Api.csproj" />
-    <ProjectReference Include="..\SGCM.Application\SGCM.Application.csproj" />
     <ProjectReference Include="..\SGCM.Domain\SGCM.Domain.csproj" />
     <ProjectReference Include="..\SGCM.Infraestructure\SGCM.Infraestructure.csproj" />
     <ProjectReference Include="..\SGCM.Model\SGCM.Model.csproj" />
