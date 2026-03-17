@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SGCM.Domain.Services;
+using SGCM.Domain.Services.Interfaces;
 
-namespace SGCM.IOC.Dependencies.AuditLogs
+namespace SGCM.IOC.Dependencies.AuditLog
 {
-    internal class AuditLogDependency
+    public static class AuditLogDependency
     {
+        public static IServiceCollection Register(IServiceCollection services)
+        {
+            services.AddScoped<IAuditLogDomainService, AuditLogDomainService>();
+
+            return services;
+        }
     }
 }
