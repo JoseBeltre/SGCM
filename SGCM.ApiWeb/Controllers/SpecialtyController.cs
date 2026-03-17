@@ -6,7 +6,7 @@ namespace SGCM.ApiWeb.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SpecialtyController : Controller
+    public class SpecialtyController : ControllerBase
     {
         private readonly ISpecialtyService _specialtyService;
         public SpecialtyController(ISpecialtyService specialtyService)
