@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SGCM.Application.Interfaces;
 
-namespace SGCM.ApiWeb.Controllers
+namespace SGCM.ApiWeb.Controllers.Patient
 {
     [ApiController]
     [Route("api/[controller]")]

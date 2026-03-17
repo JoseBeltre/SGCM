@@ -11,7 +11,7 @@ namespace SGCM.Application.Mappers
             {
                 Id = availability.Id,
                 DoctorId = availability.DoctorId,
-                DayOfWeek = availability.DayOfWeek,
+                DayOfWeek = availability.DayOfWeek.ToString(),
                 StartTime = availability.StartTime,
                 EndTime = availability.EndTime,
                 IsActive = availability.IsActive

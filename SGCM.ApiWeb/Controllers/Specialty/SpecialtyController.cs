@@ -2,7 +2,7 @@
 using SGCM.Application.DTOs.Specialty;
 using SGCM.Application.Interfaces.Specialty;
 
-namespace SGCM.ApiWeb.Controllers
+namespace SGCM.ApiWeb.Controllers.Specialty
 {
     [ApiController]
     [Route("api/[controller]")]
