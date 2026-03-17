@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SGCM.Domain\SGCM.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
