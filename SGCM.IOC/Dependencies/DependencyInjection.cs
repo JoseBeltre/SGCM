@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SGCM.IOC.Dependencies.AuditLog;
 using SGCM.IOC.Dependencies.Availability;
 using SGCM.IOC.Dependencies.Notification;
 
@@ -11,6 +12,7 @@ namespace SGCM.IOC.Dependencies
             services = NotificationDependency.Register(services);
             services = AvailabilityExceptionDependency.Register(services);
             services = AvailabilityDependency.Register(services);
+            services = AuditLogDependency.Register(services);
 
             return services;
         }
