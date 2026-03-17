@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SGCM.Application\SGCM.Application.csproj" />
     <ProjectReference Include="..\SGCM.IOC\SGCM.IOC.csproj" />
   </ItemGroup>
 
