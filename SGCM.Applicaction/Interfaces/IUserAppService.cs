@@ -1,8 +1,8 @@
-﻿using SGCM.Applicaction.Base;
-using SGCM.Applicaction.DTOs.User;
+﻿using SGCM.Application.Base;
+using SGCM.Application.DTOs.User;
 using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Interfaces
+namespace SGCM.Application.Interfaces
 {
     public interface IUserAppService : IBaseService
         <IUserAppService,

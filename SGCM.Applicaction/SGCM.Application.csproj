@@ -11,4 +11,8 @@
     <ProjectReference Include="..\SGCM.Persistence\SGCM.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Notification\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace SGCM.Applicaction.DTOs.SystemSetting
+﻿namespace SGCM.Application.DTOs.SystemSetting
 {
     public record UpdateSystemSettingDto
     {

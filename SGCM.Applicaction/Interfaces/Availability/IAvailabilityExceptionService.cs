@@ -1,14 +1,14 @@
-﻿using SGCM.Applicaction.DTOs.Availability;
+﻿using SGCM.Application.DTOs.Availability;
 using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Interfaces.Availability
+namespace SGCM.Application.Interfaces.Availability
 {
     public interface IAvailabilityExceptionService : IBaseService<
         IAvailabilityExceptionService,
-        CreateNotificationDto,
-        UpdateNotificationDto,
-        NotificationResponse>
+        CreateAvailabilityExceptionDto,
+        UpdateAvailabilityExceptionDto,
+        AvailabilityExceptionResponse>
     {
-        Task<OperationResult<List<NotificationResponse>>> GetByDoctorIdAsync(int id);
+        Task<OperationResult<List<AvailabilityExceptionResponse>>> GetByDoctorIdAsync(int id);
     }
 }

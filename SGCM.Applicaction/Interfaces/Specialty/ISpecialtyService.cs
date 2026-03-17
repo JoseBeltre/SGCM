@@ -1,7 +1,7 @@
-﻿using SGCM.Applicaction.DTOs.Specialty;
+﻿using SGCM.Application.DTOs.Specialty;
 using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Interfaces.Specialty
+namespace SGCM.Application.Interfaces.Specialty
 {
     public interface ISpecialtyService : IBaseService<
         ISpecialtyService,

@@ -1,4 +1,4 @@
-﻿namespace SGCM.Applicaction.DTOs.Doctor
+﻿namespace SGCM.Application.DTOs.Doctor
 {
     public record AddDoctorDto
     {

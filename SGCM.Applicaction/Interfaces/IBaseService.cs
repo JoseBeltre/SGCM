@@ -1,6 +1,6 @@
 ﻿using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Interfaces
+namespace SGCM.Application.Interfaces
 {
     public interface IBaseService<
         TService,

@@ -1,8 +1,8 @@
-﻿using SGCM.Applicaction.Base;
-using SGCM.Applicaction.DTOs.SystemSetting;
+﻿using SGCM.Application.Base;
+using SGCM.Application.DTOs.SystemSetting;
 using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Interfaces
+namespace SGCM.Application.Interfaces
 {
     public interface ISystemSettingAppService : IBaseService
         <ISystemSettingAppService,

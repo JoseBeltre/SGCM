@@ -1,4 +1,4 @@
-﻿namespace SGCM.Applicaction.DTOs.Doctor
+﻿namespace SGCM.Application.DTOs.Doctor
 {
     public record DoctorDto
     {
@@ -11,4 +11,4 @@
         public string? AssignedOffice { get; init; }
         public bool IsActive { get; init; }
     }
-}}
+}

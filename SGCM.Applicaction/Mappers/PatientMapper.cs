@@ -1,7 +1,7 @@
-﻿using SGCM.Applicaction.DTOs.Patient;
+﻿using SGCM.Application.DTOs.Patient;
 using SGCM.Domain.Entities;
 
-namespace SGCM.Applicaction.Mappers
+namespace SGCM.Application.Mappers
 {
     public static class PatientMapper
     {

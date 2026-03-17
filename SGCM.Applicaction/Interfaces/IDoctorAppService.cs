@@ -1,8 +1,8 @@
-﻿using SGCM.Applicaction.Base;
-using SGCM.Applicaction.DTOs.Doctor;
+﻿using SGCM.Application.Base;
+using SGCM.Application.DTOs.Doctor;
 using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Interfaces
+namespace SGCM.Application.Interfaces
 {
     public interface IDoctorAppService : IBaseService
         <IDoctorAppService,

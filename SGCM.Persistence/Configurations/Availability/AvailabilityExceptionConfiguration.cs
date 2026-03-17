@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace SGCM.Persistence.Configurations
 {
-    public class AvailabilityExceptionConfiguration : IEntityTypeConfiguration<AvailabilityException> { }
+    public class AvailabilityExceptionConfiguration : IEntityTypeConfiguration<AvailabilityException> {
     public void Configure(EntityTypeBuilder<AvailabilityException> builder)
         {
             builder.ToTable("AvailabilityExceptions");

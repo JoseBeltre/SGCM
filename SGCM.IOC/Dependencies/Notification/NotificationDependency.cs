@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SGCM.Applicaction.Interfaces.Notification;
-using SGCM.Applicaction.Services.Notification;
+using SGCM.Application.Interfaces.Notification;
+using SGCM.Application.Services.Notification;
 using SGCM.Domain.Services;
 using SGCM.Domain.Services.Interfaces;
 
@@ -8,7 +8,7 @@ namespace SGCM.IOC.Dependencies.Notification
 {
     public static class NotificationDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddNotification(this IServiceCollection services)
         {
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<INotificationDomainService, NotificationsDomainService>();

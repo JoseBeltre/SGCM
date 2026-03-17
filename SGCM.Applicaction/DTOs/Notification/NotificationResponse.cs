@@ -1,6 +1,6 @@
 ﻿using SGCM.Domain.Enums;
 
-namespace SGCM.Applicaction.DTOs.Notification
+namespace SGCM.Application.DTOs.Notification
 {
     public record NotificationResponse
     {

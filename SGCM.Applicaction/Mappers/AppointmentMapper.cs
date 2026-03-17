@@ -1,7 +1,7 @@
-﻿using SGCM.Applicaction.DTOs.Appointment;
+﻿using SGCM.Application.DTOs.Appointment;
 using SGCM.Domain.Entities;
 
-namespace SGCM.Applicaction.Mappers
+namespace SGCM.Application.Mappers
 {
     public static class AppointmentMapper
     {

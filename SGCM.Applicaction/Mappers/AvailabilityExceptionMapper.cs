@@ -1,7 +1,7 @@
-﻿using SGCM.Applicaction.DTOs.Availability;
+﻿using SGCM.Application.DTOs.Availability;
 using SGCM.Domain.Entities;
 
-namespace SGCM.Applicaction.Mappers
+namespace SGCM.Application.Mappers
 {
     public static class AvailabilityExceptionMapper
     {

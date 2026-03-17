@@ -1,4 +1,4 @@
-﻿namespace SGCM.Applicaction.DTOs.Specialty
+﻿namespace SGCM.Application.DTOs.Specialty
 {
     public record CreateSpecialtyDto
     {

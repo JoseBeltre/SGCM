@@ -1,6 +1,6 @@
 ﻿using SGCM.Domain.Enums;
 
-namespace SGCM.Applicaction.DTOs.Availability
+namespace SGCM.Application.DTOs.Availability
 {
     public record AvailabilityResponse
     {

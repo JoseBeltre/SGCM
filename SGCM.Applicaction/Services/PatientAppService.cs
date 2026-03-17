@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
-using SGCM.Applicaction.DTOs.Patient;
-using SGCM.Applicaction.Interfaces;
-using SGCM.Applicaction.Mappers;
+using SGCM.Application.DTOs.Patient;
+using SGCM.Application.Interfaces;
+using SGCM.Application.Mappers;
 using SGCM.Domain.Base;
 using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
 using SGCM.Domain.Services.Interfaces;
 
-namespace SGCM.Applicaction.Services
+namespace SGCM.Application.Services
 {
     public class PatientAppService : IPatientAppService
     {

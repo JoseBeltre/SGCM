@@ -7,10 +7,10 @@ namespace SGCM.Domain.Services
 {
     public class AvailabilityDomainService : IAvailabilityDomainService
     {
-        private readonly IAvailabilitiesRepository _availabilitiesRepository;
+        private readonly IAvailabilityRepository _availabilitiesRepository;
         private readonly IAvailabilityExceptionRepository _availabilitiesExceptionRepository;
 
-        public AvailabilityDomainService(IAvailabilitiesRepository availabilitiesRepository, IAvailabilityExceptionRepository availabilitiesExceptionRepository)
+        public AvailabilityDomainService(IAvailabilityRepository availabilitiesRepository, IAvailabilityExceptionRepository availabilitiesExceptionRepository)
         {
             _availabilitiesRepository = availabilitiesRepository;
             _availabilitiesExceptionRepository = availabilitiesExceptionRepository;

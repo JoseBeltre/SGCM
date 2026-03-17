@@ -1,4 +1,4 @@
-﻿namespace SGCM.Applicaction.DTOs.User
+﻿namespace SGCM.Application.DTOs.User
 {
     public record RemoveUserDto
     {

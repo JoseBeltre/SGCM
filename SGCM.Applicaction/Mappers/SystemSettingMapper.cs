@@ -1,7 +1,7 @@
-﻿using SGCM.Applicaction.DTOs.SystemSetting;
+﻿using SGCM.Application.DTOs.SystemSetting;
 using SGCM.Domain.Entities;
 
-namespace SGCM.Applicaction.Mappers
+namespace SGCM.Application.Mappers
 {
     public static class SystemSettingMapper
     {

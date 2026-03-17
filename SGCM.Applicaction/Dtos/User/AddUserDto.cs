@@ -1,6 +1,6 @@
 ﻿using SGCM.Domain.Enums;
 
-namespace SGCM.Applicaction.DTOs.User
+namespace SGCM.Application.DTOs.User
 {
     public record AddUserDto
     {

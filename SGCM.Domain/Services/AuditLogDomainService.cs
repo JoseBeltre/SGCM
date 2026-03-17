@@ -13,11 +13,11 @@ namespace SGCM.Domain.Services
     public class AuditLogDomainService : IAuditLogDomainService
     {
         private readonly IAuditLogRepository _auditRepository;
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUserRepository _usersRepository;
 
         public AuditLogDomainService(
             IAuditLogRepository auditRepository,
-            IUsersRepository usersRepository)
+            IUserRepository usersRepository)
         {
             _auditRepository = auditRepository;
             _usersRepository = usersRepository;

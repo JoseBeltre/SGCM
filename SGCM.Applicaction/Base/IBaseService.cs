@@ -1,6 +1,6 @@
 ﻿using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Base
+namespace SGCM.Application.Base
 {
     public interface IBaseService<TService, TCreateDto, TUpdateDto, TResponse>
         where TService : class

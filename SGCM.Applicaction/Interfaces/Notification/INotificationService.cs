@@ -1,7 +1,7 @@
-﻿using SGCM.Applicaction.DTOs.Notification;
+﻿using SGCM.Application.DTOs.Notification;
 using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Interfaces.Notification
+namespace SGCM.Application.Interfaces.Notification
 {
     public interface INotificationService
     {

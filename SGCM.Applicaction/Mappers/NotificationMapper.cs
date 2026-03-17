@@ -1,5 +1,5 @@
-﻿using SGCM.Applicaction.DTOs.Availability;
-using SGCM.Applicaction.DTOs.Notification;
+﻿using SGCM.Application.DTOs.Availability;
+using SGCM.Application.DTOs.Notification;
 using SGCM.Domain.Entities;
 
 namespace SGCM.Application.Mappers

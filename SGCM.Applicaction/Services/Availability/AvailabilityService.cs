@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
-using SGCM.Applicaction.DTOs.Availability;
-using SGCM.Applicaction.Interfaces.Availability;
+using SGCM.Application.DTOs.Availability;
+using SGCM.Application.Interfaces.Availability;
 using SGCM.Application.Mappers;
 using SGCM.Domain.Base;
 using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
 
-namespace SGCM.Applicaction.Services.Availability
+namespace SGCM.Application.Services.Availability
 {
     public class AvailabilityService : IAvailabilityService
     {
@@ -80,7 +80,7 @@ namespace SGCM.Applicaction.Services.Availability
                 if (createDto.StartTime >= createDto.EndTime)
                     return OperationResult<AvailabilityResponse>.Failure("Invalid time range.");
 
-                var availability = new Availability
+                var availability = new Domain.Entities.Availability
                 {
                     DoctorId = createDto.DoctorId,
                     DayOfWeek = createDto.DayOfWeek,

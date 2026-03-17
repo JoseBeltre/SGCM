@@ -1,7 +1,7 @@
-﻿using SGCM.Applicaction.DTOs.User;
+﻿using SGCM.Application.DTOs.User;
 using SGCM.Domain.Entities;
 
-namespace SGCM.Applicaction.Mappers
+namespace SGCM.Application.Mappers
 {
     public static class UserMapper
     {

@@ -1,6 +1,6 @@
 ﻿using SGCM.Domain.Enums;
 
-namespace SGCM.Applicaction.DTOs.Patient
+namespace SGCM.Application.DTOs.Patient
 {
     public record PatientDto
     {

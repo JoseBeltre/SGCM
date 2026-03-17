@@ -1,13 +1,13 @@
 ﻿using SGCM.Domain.Base;
-using SGCM.Applicaction.DTOs.Specialty;
+using SGCM.Application.DTOs.Specialty;
 using Microsoft.Extensions.Logging;
 using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
 using SGCM.Domain.Services.Interfaces;
 using SGCM.Application.Mappers;
-using SGCM.Applicaction.Interfaces.Specialty;
-namespace SGCM.Applicaction.Services.Specialty
+using SGCM.Application.Interfaces.Specialty;
+namespace SGCM.Application.Services.Specialty
 {
     public class SpecialtyService : ISpecialtyService
     {
@@ -64,7 +64,7 @@ namespace SGCM.Applicaction.Services.Specialty
         {
             try
             {
-                var specialty = new Specialty
+                var specialty = new Domain.Entities.Specialty
                 {
                     Name = request.Name,
                     Description = request.Description

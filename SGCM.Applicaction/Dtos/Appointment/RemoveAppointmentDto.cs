@@ -1,4 +1,4 @@
-﻿namespace SGCM.Applicaction.DTOs.Appointment
+﻿namespace SGCM.Application.DTOs.Appointment
 {
     public record RemoveAppointmentDto
     {
