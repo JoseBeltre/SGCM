@@ -161,11 +161,11 @@ namespace SGCM.Application.Services.Specialty
                 return OperationResult<SpecialtyResponse>.Failure("An error occurred while updating the specialty.");
             }
         }
-        public async Task<OperationResult<List<SpecialtyResponse>>> GetActiveAsync()
+        public async Task<OperationResult<List<SpecialtyResponse>>> GetByStatusAsync(bool isActive)
         {
             try
             {
-                var result = await _repository.GetActiveAsync();
+                var result = await _repository.GetByStatusAsync(isActive);
                 var specialties = result.Data?.Select(SpecialtyMapper.ToResponse).ToList();
                 return OperationResult<List<SpecialtyResponse>>.Success(specialties ?? new List<SpecialtyResponse>());
             }

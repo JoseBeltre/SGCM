@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SGCM.Application.DTOs.Specialty;
 using SGCM.Application.Interfaces.Specialty;
 
 namespace SGCM.ApiWeb.Controllers
@@ -13,82 +13,75 @@ namespace SGCM.ApiWeb.Controllers
         {
             _specialtyService = specialtyService;
         }
+        // Ruta para obtener todas las especialidades
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] bool? active = null)
         {
-            var result = await _specialtyService.GetAllAsync();
-            if (!result.IsSuccess)
-                return NotFound();
-            return Ok(result);
+            if (active.HasValue)
+            {
+                var result = await _specialtyService.GetByStatusAsync(active.Value);
+                if (!result.IsSuccess)
+                    return NotFound(result.Message);
+                return Ok(result.Data);
+            } else
+            {
+                var result = await _specialtyService.GetAllAsync();
+                if (!result.IsSuccess)
+                    return NotFound(result.Message);
+                return Ok(result.Data);
+            }     
         }
 
-        //// GET: HomeController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+        // Ruta para obtener una especialidad por su ID
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _specialtyService.GetByIdAsync(id);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+            return Ok(result.Data);
+        }
 
-        //// GET: HomeController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        // Ruta para crear una nueva especialidad
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateSpecialtyDto request) {
+            var result = await _specialtyService.CreateAsync(request);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+            return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = result.Data.Id},
+                    result.Data
+                );
+        }
 
-        //// POST: HomeController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        // Ruta para actualizar por COMPLETO una especialdad existente
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateSpecialtyDto request) {
+            var result = await _specialtyService.UpdateAsync(id, request);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
+            return NoContent();
+        }
 
-        //// GET: HomeController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+        // Ruta para desactivar una especialidad por su ID
+        [HttpPatch("{id:int}/deactivate")]
+        public async Task<IActionResult> Deactivate(int id)
+        {
+            var result = await _specialtyService.DeactivateAsync(id);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+            return NoContent();
+        }
 
-        //// POST: HomeController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: HomeController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: HomeController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        // Ruta para eliminar una especialidad por su ID
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _specialtyService.DeleteAsync(id);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+            return NoContent();
+        }
     }
 }
