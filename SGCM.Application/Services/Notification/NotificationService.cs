@@ -95,13 +95,13 @@ namespace SGCM.Application.Services.Notification
             var user = userResult.Data;
 
                 if (notification.NotificationType == NotificationType.Email ||
-                    notification.NotificationType == NotificationType.Both)
+                    notification.NotificationType == NotificationType.Ambos)
                 {
                     _logger.LogInformation("Sending EMAIL notification to {User}", user.Email);
                 }
 
                 if (notification.NotificationType == NotificationType.SMS ||
-                    notification.NotificationType == NotificationType.Both)
+                    notification.NotificationType == NotificationType.Ambos)
                 {
                     _logger.LogInformation("Sending SMS notification to {User}", user.Phone);
                 }

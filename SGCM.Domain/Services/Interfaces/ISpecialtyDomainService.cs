@@ -2,7 +2,7 @@
 
 namespace SGCM.Domain.Services.Interfaces
 {
-    public interface ISpecialtiyDomainService
+    public interface ISpecialtyDomainService
     {
         Task<OperationResult<bool>> CanBeDeactivatedAsync(int specialtyId);
     }

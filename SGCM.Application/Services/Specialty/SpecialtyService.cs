@@ -126,11 +126,11 @@ namespace SGCM.Application.Services.Specialty
             }
         }
 
-        public async Task<OperationResult<SpecialtyResponse>> UpdateAsync(UpdateSpecialtyDto request)
+        public async Task<OperationResult<SpecialtyResponse>> UpdateAsync(int id, UpdateSpecialtyDto request)
         {
             try
             {
-                var existingSpecialtyResult = await _repository.GetByIdAsync(request.Id);
+                var existingSpecialtyResult = await _repository.GetByIdAsync(id);
                 if (!existingSpecialtyResult.IsSuccess)
                     return OperationResult<SpecialtyResponse>.Failure(existingSpecialtyResult.Message);
 
@@ -148,11 +148,11 @@ namespace SGCM.Application.Services.Specialty
                     entityType: EntityType.Specialty,
                     previousEntity: existingSpecialtyResult.Data,
                     newEntity: result.Data,
-                    entityId: request.Id,
+                    entityId: id,
                     ipAddress: "", // IP Address - replace with actual IP address from context
                     userAgent: "" // User Agent - replace with actual user agent from context
                 );
-                _logger.LogInformation("Specialty updated with ID: {SpecialtyId}", request.Id);
+                _logger.LogInformation("Specialty updated with ID: {SpecialtyId}", id);
                 return OperationResult<SpecialtyResponse>.Success(SpecialtyMapper.ToResponse(specialty));
             }
             catch (Exception ex)
@@ -161,11 +161,11 @@ namespace SGCM.Application.Services.Specialty
                 return OperationResult<SpecialtyResponse>.Failure("An error occurred while updating the specialty.");
             }
         }
-        public async Task<OperationResult<List<SpecialtyResponse>>> GetActiveAsync()
+        public async Task<OperationResult<List<SpecialtyResponse>>> GetByStatusAsync(bool isActive)
         {
             try
             {
-                var result = await _repository.GetActiveAsync();
+                var result = await _repository.GetByStatusAsync(isActive);
                 var specialties = result.Data?.Select(SpecialtyMapper.ToResponse).ToList();
                 return OperationResult<List<SpecialtyResponse>>.Success(specialties ?? new List<SpecialtyResponse>());
             }

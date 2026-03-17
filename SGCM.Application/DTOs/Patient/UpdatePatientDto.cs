@@ -4,7 +4,6 @@ namespace SGCM.Application.DTOs.Patient
 {
     public record UpdatePatientDto
     {
-        public required int Id { get; init; }
         public string? Address { get; init; }
         public Gender? Gender { get; init; }
         public string? EmergencyPhone { get; init; }

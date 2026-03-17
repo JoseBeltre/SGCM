@@ -9,7 +9,7 @@ namespace SGCM.Application.Interfaces.Specialty
         UpdateSpecialtyDto,
         SpecialtyResponse>
     {
-        Task<OperationResult<List<SpecialtyResponse>>> GetActiveAsync();
+        Task<OperationResult<List<SpecialtyResponse>>> GetByStatusAsync(bool isActive);
         Task<OperationResult> DeactivateAsync(int id);
     }
 }

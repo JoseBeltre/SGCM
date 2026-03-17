@@ -10,7 +10,7 @@ namespace SGCM.IOC.Dependencies.Appointment
 {
     public static class AppointmentDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddAppointment(this IServiceCollection services)
         {
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IAppointmentHistoryRepository, AppointmentHistoryRepository>();

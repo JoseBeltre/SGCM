@@ -4,7 +4,6 @@ namespace SGCM.Application.DTOs.Availability
 {
     public record UpdateAvailabilityExceptionDto
     {
-        public required int Id { get; init; }
         public required int DoctorId { get; init; }
         public DateTime StartDate { get; init; }
         public DateTime EndDate { get; init; }

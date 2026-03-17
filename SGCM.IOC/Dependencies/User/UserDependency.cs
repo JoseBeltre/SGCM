@@ -10,7 +10,7 @@ namespace SGCM.IOC.Dependencies.User
 {
     public static class UserDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddUser(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();

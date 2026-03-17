@@ -96,11 +96,11 @@ namespace SGCM.Application.Services
             }
         }
 
-        public async Task<OperationResult<SystemSettingDto>> UpdateAsync(UpdateSystemSettingDto updateDto)
+        public async Task<OperationResult<SystemSettingDto>> UpdateAsync(int id, UpdateSystemSettingDto updateDto)
         {
             try
             {
-                var existing = await _repository.GetByIdAsync(updateDto.Id);
+                var existing = await _repository.GetByIdAsync(id);
                 if (!existing.IsSuccess || existing.Data == null)
                     return OperationResult<SystemSettingDto>.Failure(existing.Message);
 
@@ -126,7 +126,7 @@ namespace SGCM.Application.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while updating setting with ID {SettingId}.", updateDto.Id);
+                _logger.LogError(ex, "An error occurred while updating setting with ID {SettingId}.", id);
                 return OperationResult<SystemSettingDto>.Failure("An error occurred while updating the setting.");
             }
         }

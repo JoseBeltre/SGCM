@@ -10,7 +10,7 @@ namespace SGCM.IOC.Dependencies.Doctor
 {
     public static class DoctorDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddDoctor(this IServiceCollection services)
         {
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();

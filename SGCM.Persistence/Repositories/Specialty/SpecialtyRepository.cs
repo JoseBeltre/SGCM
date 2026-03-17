@@ -28,9 +28,9 @@ namespace SGCM.Persistence.Repositories
 
             return OperationResult<Specialty?>.Success(specialty);
         }
-        public async Task<OperationResult<List<Specialty>>> GetActiveAsync()
+        public async Task<OperationResult<List<Specialty>>> GetByStatusAsync(bool isActive)
         {
-            var specialties = await _context.Specialty.Where(s => s.IsActive).ToListAsync();
+            var specialties = await _context.Specialty.Where(s => s.IsActive == isActive).ToListAsync();
 
             return OperationResult<List<Specialty>>.Success(specialties);
         }
