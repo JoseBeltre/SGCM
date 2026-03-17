@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SGCM.Applicaction.Base;
+using SGCM.Applicaction.DTOs.SystemSetting;
+using SGCM.Domain.Base;
 
 namespace SGCM.Applicaction.Interfaces
 {
-    internal interface ISystemSettingAppService
+    public interface ISystemSettingAppService : IBaseService
+        <ISystemSettingAppService,
+        AddSystemSettingDto,
+        UpdateSystemSettingDto,
+        SystemSettingDto>
     {
+        Task<OperationResult<SystemSettingDto>> GetByKeyAsync(string key);
     }
 }

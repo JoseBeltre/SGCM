@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SGCM.Applicaction.Base;
+using SGCM.Applicaction.DTOs.Patient;
+using SGCM.Domain.Base;
 
 namespace SGCM.Applicaction.Interfaces
 {
-    internal interface IPatientAppService
+    public interface IPatientAppService : IBaseService
+        <IPatientAppService,
+        AddPatientDto,
+        UpdatePatientDto,
+        PatientDto>
     {
+        Task<OperationResult<PatientDto>> GetByNationalIdAsync(string nationalId);
     }
 }
