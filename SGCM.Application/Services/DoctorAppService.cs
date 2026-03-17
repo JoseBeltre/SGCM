@@ -103,11 +103,11 @@ namespace SGCM.Application.Services
             }
         }
 
-        public async Task<OperationResult<DoctorDto>> UpdateAsync(UpdateDoctorDto updateDto)
+        public async Task<OperationResult<DoctorDto>> UpdateAsync(int id, UpdateDoctorDto updateDto)
         {
             try
             {
-                var existing = await _repository.GetByIdAsync(updateDto.Id);
+                var existing = await _repository.GetByIdAsync(id);
                 if (!existing.IsSuccess || existing.Data == null)
                     return OperationResult<DoctorDto>.Failure(existing.Message);
 
@@ -134,7 +134,7 @@ namespace SGCM.Application.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while updating doctor with ID {DoctorId}.", updateDto.Id);
+                _logger.LogError(ex, "An error occurred while updating doctor with ID {DoctorId}.", id);
                 return OperationResult<DoctorDto>.Failure("An error occurred while updating the doctor.");
             }
         }

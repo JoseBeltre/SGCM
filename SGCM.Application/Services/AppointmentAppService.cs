@@ -105,7 +105,7 @@ namespace SGCM.Application.Services
             }
         }
 
-        public async Task<OperationResult<AppointmentDto>> UpdateAsync(UpdateAppointmentDto updateDto)
+        public async Task<OperationResult<AppointmentDto>> UpdateAsync(int id, UpdateAppointmentDto updateDto)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace SGCM.Application.Services
                 if (!canReschedule.IsSuccess || !canReschedule.Data)
                     return OperationResult<AppointmentDto>.Failure(canReschedule.Message);
 
-                var existing = await _repository.GetByIdAsync(updateDto.Id);
+                var existing = await _repository.GetByIdAsync(id);
                 if (!existing.IsSuccess || existing.Data == null)
                     return OperationResult<AppointmentDto>.Failure(existing.Message);
 
@@ -143,7 +143,7 @@ namespace SGCM.Application.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while updating appointment with ID {AppointmentId}.", updateDto.Id);
+                _logger.LogError(ex, "An error occurred while updating appointment with ID {AppointmentId}.", id);
                 return OperationResult<AppointmentDto>.Failure("An error occurred while updating the appointment.");
             }
         }
