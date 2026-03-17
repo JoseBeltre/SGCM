@@ -10,12 +10,12 @@ namespace SGCM.Domain.Services
 {
     using System.Text.Json;
 
-    public class AuditLogsService : IAuditLogDomainService
+    public class AuditLogDomainService : IAuditLogDomainService
     {
         private readonly IAuditLogRepository _auditRepository;
         private readonly IUsersRepository _usersRepository;
 
-        public AuditLogsService(
+        public AuditLogDomainService(
             IAuditLogRepository auditRepository,
             IUsersRepository usersRepository)
         {

@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SGCM.IOC.Dependencies.AuditLog;
+using SGCM.IOC.Dependencies.Availability;
+using SGCM.IOC.Dependencies.Notification;
 
 namespace SGCM.IOC.Dependencies
 {
-    internal class DependencyInjection
+    public static class DependencyInjection
     {
+        public static IServiceCollection AddSGCM(IServiceCollection services)
+        {
+            services = NotificationDependency.Register(services);
+            services = AvailabilityExceptionDependency.Register(services);
+            services = AvailabilityDependency.Register(services);
+            services = AuditLogDependency.Register(services);
+
+            return services;
+        }
     }
 }
