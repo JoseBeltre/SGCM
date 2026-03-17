@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SGCM.Applicaction.Interfaces.Notification;
+using SGCM.Applicaction.Services.Notification;
+using SGCM.Domain.Services;
+using SGCM.Domain.Services.Interfaces;
 
 namespace SGCM.IOC.Dependencies.Notification
 {
-    internal class NotificationDependency
+    public static class NotificationDependency
     {
+        public static IServiceCollection Register(IServiceCollection services)
+        {
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<INotificationDomainService, NotificationsDomainService>();
+
+            return services;
+        }
     }
 }
