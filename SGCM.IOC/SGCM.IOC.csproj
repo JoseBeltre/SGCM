@@ -16,6 +16,7 @@
     <ProjectReference Include="..\SGCM.Infraestructure\SGCM.Infraestructure.csproj" />
     <ProjectReference Include="..\SGCM.Model\SGCM.Model.csproj" />
     <ProjectReference Include="..\SGCM.Persistence\SGCM.Persistence.csproj" />
+    <ProjectReference Include="..\SGCM.Application\SGCM.Application.csproj" />
   </ItemGroup>
 
 </Project>

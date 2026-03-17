@@ -17,8 +17,6 @@
     <Project Path="SGCM.IOC/SGCM.IOC.csproj" />
   </Folder>
   <Folder Name="/Test/">
-    <Project Path="SGCM.Applicaction.Test/SGCM.Application.Test.csproj" />
     <Project Path="SGCM.Persistence.Test/SGCM.Persistence.Test.csproj" />
   </Folder>
-  <Folder Name="/Web/" />
 </Solution>
