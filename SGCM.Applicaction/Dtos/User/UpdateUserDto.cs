@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SGCM.Applicaction.Dtos.User
+﻿namespace SGCM.Applicaction.DTOs.User
 {
-    internal class UpdateUserDto
+    public record UpdateUserDto
     {
+        public required int Id { get; init; }
+        public required string FullName { get; init; }
+        public required string Email { get; init; }
+        public string? Phone { get; init; }
     }
 }

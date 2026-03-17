@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SGCM.Applicaction.Dtos.Doctor
+﻿namespace SGCM.Applicaction.DTOs.Doctor
 {
-    internal class RemoveDoctorDto
+    public record RemoveDoctorDto
     {
+        public required int Id { get; init; }
     }
 }

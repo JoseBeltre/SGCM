@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SGCM.Applicaction.Dtos.SystemSetting
+﻿namespace SGCM.Applicaction.DTOs.SystemSetting
 {
-    internal class UpdateSystemSettingDto
+    public record UpdateSystemSettingDto
     {
+        public required int Id { get; init; }
+        public required string SettingValue { get; init; }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SGCM.Applicaction.Dtos.Appointment
+﻿namespace SGCM.Applicaction.DTOs.Appointment
 {
-    internal class UpdateAppointmentDto
+    public record UpdateAppointmentDto
     {
+        public required int Id { get; init; }
+        public required DateTime AppointmentDate { get; init; }
+        public int DurationMinutes { get; init; } = 30;
+        public string? ConsultationReason { get; init; }
     }
 }

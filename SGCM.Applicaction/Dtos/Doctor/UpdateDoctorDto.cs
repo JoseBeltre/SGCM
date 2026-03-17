@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SGCM.Applicaction.Dtos.Doctor
+﻿namespace SGCM.Applicaction.DTOs.Doctor
 {
-    internal class UpdateDoctorDto
+    public record UpdateDoctorDto
     {
+        public required int Id { get; init; }
+        public required int SpecialtyId { get; init; }
+        public string? AssignedOffice { get; init; }
     }
 }

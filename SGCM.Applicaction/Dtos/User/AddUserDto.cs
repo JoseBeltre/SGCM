@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SGCM.Domain.Enums;
 
-namespace SGCM.Applicaction.Dtos.User
+namespace SGCM.Applicaction.DTOs.User
 {
-    internal class AddUserDto
+    public record AddUserDto
     {
+        public required string FullName { get; init; }
+        public required string Email { get; init; }
+        public string? Phone { get; init; }
+        public required string PasswordHash { get; init; }
+        public required UserType UserType { get; init; }
     }
 }

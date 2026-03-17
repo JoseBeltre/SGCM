@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SGCM.Applicaction.Dtos.SystemSetting
+﻿namespace SGCM.Applicaction.DTOs.SystemSetting
 {
-    internal class SystemSettingDto
+    public record SystemSettingDto
     {
+        public required int Id { get; init; }
+        public required string SettingKey { get; init; }
+        public required string SettingValue { get; init; }
+        public string? Description { get; init; }
     }
 }

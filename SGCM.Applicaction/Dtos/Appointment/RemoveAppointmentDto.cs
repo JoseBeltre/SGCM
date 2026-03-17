@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SGCM.Applicaction.Dtos.Appointment
+﻿namespace SGCM.Applicaction.DTOs.Appointment
 {
-    internal class RemoveAppointmentDto
+    public record RemoveAppointmentDto
     {
+        public required int Id { get; init; }
+        public required string CancellationReason { get; init; }
     }
 }
