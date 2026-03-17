@@ -110,7 +110,7 @@ namespace SGCM.Application.Services
             try
             {
                 var canReschedule = await _domainService.CanBeRescheduledAsync(
-                    updateDto.Id, updateDto.AppointmentDate);
+                    id, updateDto.AppointmentDate);
                 if (!canReschedule.IsSuccess || !canReschedule.Data)
                     return OperationResult<AppointmentDto>.Failure(canReschedule.Message);
 
