@@ -148,14 +148,14 @@ namespace SGCM.Application.Services
             }
         }
 
-        public async Task<OperationResult<AvailabilityExceptionResponse>> UpdateAsync(UpdateAvailabilityExceptionDto updateDto)
+        public async Task<OperationResult<AvailabilityExceptionResponse>> UpdateAsync(int id, UpdateAvailabilityExceptionDto updateDto)
         {
             try
             {
                 if (updateDto.StartDate >= updateDto.EndDate)
                     return OperationResult<AvailabilityExceptionResponse>.Failure("Invalid date range.");
 
-                var existingResult = await _repository.GetByIdAsync(updateDto.Id);
+                var existingResult = await _repository.GetByIdAsync(id);
 
                 if (!existingResult.IsSuccess || existingResult.Data == null)
                     return OperationResult<AvailabilityExceptionResponse>.Failure("AvailabilityException not found");
@@ -190,7 +190,7 @@ namespace SGCM.Application.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating availability exception with ID {Id}", updateDto.Id);
+                _logger.LogError(ex, "Error updating availability exception with ID {Id}", id);
                 return OperationResult<AvailabilityExceptionResponse>
                     .Failure("An error occurred while updating the availability exception.");
             }

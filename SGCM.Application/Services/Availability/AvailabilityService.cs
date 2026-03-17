@@ -116,14 +116,14 @@ namespace SGCM.Application.Services.Availability
             }
         }
 
-        public async Task<OperationResult<AvailabilityResponse>> UpdateAsync(UpdateAvailabilityDto updateDto)
+        public async Task<OperationResult<AvailabilityResponse>> UpdateAsync(int id, UpdateAvailabilityDto updateDto)
         {
             try
             {
                 if (updateDto.StartTime >= updateDto.EndTime)
                     return OperationResult<AvailabilityResponse>.Failure("Invalid time range.");
 
-                var existingResult = await _repository.GetByIdAsync(updateDto.Id);
+                var existingResult = await _repository.GetByIdAsync(id);
 
                 if (!existingResult.IsSuccess)
                     return OperationResult<AvailabilityResponse>.Failure(existingResult.Message);
@@ -156,7 +156,7 @@ namespace SGCM.Application.Services.Availability
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating availability with ID {AvailabilityId}", updateDto.Id);
+                _logger.LogError(ex, "Error updating availability with ID {AvailabilityId}", id);
                 return OperationResult<AvailabilityResponse>.Failure("An error occurred while updating the availability.");
             }
         }
