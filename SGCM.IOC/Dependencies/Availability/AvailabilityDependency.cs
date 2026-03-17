@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SGCM.Application.Interfaces.Availability;
 using SGCM.Application.Services.Availability;
+using SGCM.Domain.Repository;
 using SGCM.Domain.Services;
 using SGCM.Domain.Services.Interfaces;
+using SGCM.Persistence.Repositories;
 
 namespace SGCM.IOC.Dependencies.Availability
 {
@@ -12,6 +14,8 @@ namespace SGCM.IOC.Dependencies.Availability
         {
             services.AddScoped<IAvailabilityService, AvailabilityService>();
             services.AddScoped<IAvailabilityDomainService, AvailabilityDomainService>();
+            services.AddScoped<IAvailabilityRepository, AvailabilityRepository>();
+
 
             return services;
         }

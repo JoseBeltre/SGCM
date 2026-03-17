@@ -10,7 +10,7 @@ namespace SGCM.IOC.Dependencies.SystemSetting
 {
     public static class SystemSettingDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddSystemSettings(this IServiceCollection services)
         {
             services.AddScoped<ISystemSettingService, SystemSettingService>();
             services.AddScoped<ISystemSettingRepository, SystemSettingRepository>();
