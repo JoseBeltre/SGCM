@@ -4,7 +4,7 @@ using SGCM.Domain.Enums;
 
 namespace SGCM.Domain.Services.Interfaces
 {
-    public interface INotificationsService
+    public interface INotificationDomainService
     {
         Task<OperationResult<Notification>> CreateAsync(int userId,
             int appointmentId,

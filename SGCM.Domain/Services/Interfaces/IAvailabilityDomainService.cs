@@ -1,13 +1,8 @@
 ﻿using SGCM.Domain.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SGCM.Domain.Services.Interfaces
 {
-    public interface IAvailabilityService
+    public interface IAvailabilityDomainService
     {
         Task<OperationResult<bool>> IsDoctorAvailableAsync(int doctorId, DateTime appointementDate, TimeSpan startTime, TimeSpan endTime);
     }

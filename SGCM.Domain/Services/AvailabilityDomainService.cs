@@ -5,12 +5,12 @@ using SGCM.Domain.Services.Interfaces;
 
 namespace SGCM.Domain.Services
 {
-    public class AvailabilityService : IAvailabilityService
+    public class AvailabilityDomainService : IAvailabilityDomainService
     {
         private readonly IAvailabilitiesRepository _availabilitiesRepository;
         private readonly IAvailabilityExceptionRepository _availabilitiesExceptionRepository;
 
-        public AvailabilityService(IAvailabilitiesRepository availabilitiesRepository, IAvailabilityExceptionRepository availabilitiesExceptionRepository)
+        public AvailabilityDomainService(IAvailabilitiesRepository availabilitiesRepository, IAvailabilityExceptionRepository availabilitiesExceptionRepository)
         {
             _availabilitiesRepository = availabilitiesRepository;
             _availabilitiesExceptionRepository = availabilitiesExceptionRepository;

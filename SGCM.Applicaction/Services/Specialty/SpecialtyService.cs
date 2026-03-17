@@ -1,19 +1,20 @@
 ﻿using SGCM.Domain.Base;
-using SGCM.Applicaction.Interfaces;
 using SGCM.Applicaction.DTOs.Specialty;
 using Microsoft.Extensions.Logging;
 using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
 using SGCM.Domain.Services.Interfaces;
-namespace SGCM.Applicaction.Services
+using SGCM.Application.Mappers;
+using SGCM.Applicaction.Interfaces.Specialty;
+namespace SGCM.Applicaction.Services.Specialty
 {
     public class SpecialtyService : ISpecialtyService
     {
         private readonly ISpecialtyRepository _repository;
         private readonly ILogger<SpecialtyService> _logger;
-        private readonly IAuditLogService _auditlogService;
-        public SpecialtyService(ISpecialtyRepository specialtiesRepository, ILogger<SpecialtyService> logger, IAuditLogService auditLogService)
+        private readonly IAuditLogDomainService _auditlogService;
+        public SpecialtyService(ISpecialtyRepository specialtiesRepository, ILogger<SpecialtyService> logger, IAuditLogDomainService auditLogService)
         {
             _repository = specialtiesRepository;
             _logger = logger;
@@ -50,7 +51,7 @@ namespace SGCM.Applicaction.Services
                 if (!result.IsSuccess)
                     return OperationResult<SpecialtyResponse>.Failure(result.Message);
 
-                return OperationResult<SpecialtyResponse>.Success(MapToResponse(result.Data));
+                return OperationResult<SpecialtyResponse>.Success(SpecialtyMapper.ToResponse(result.Data));
             }
             catch (Exception ex)
             {
@@ -84,7 +85,7 @@ namespace SGCM.Applicaction.Services
                     );
 
                 _logger.LogInformation("Specialty created with ID: {SpecialtyId}", result.Data);
-                return OperationResult<SpecialtyResponse>.Success(MapToResponse(result.Data));
+                return OperationResult<SpecialtyResponse>.Success(SpecialtyMapper.ToResponse(result.Data));
             }
             catch (Exception ex)
             {
@@ -152,7 +153,7 @@ namespace SGCM.Applicaction.Services
                     userAgent: "" // User Agent - replace with actual user agent from context
                 );
                 _logger.LogInformation("Specialty updated with ID: {SpecialtyId}", request.Id);
-                return OperationResult<SpecialtyResponse>.Success(MapToResponse(specialty));
+                return OperationResult<SpecialtyResponse>.Success(SpecialtyMapper.ToResponse(specialty));
             }
             catch (Exception ex)
             {
@@ -165,7 +166,7 @@ namespace SGCM.Applicaction.Services
             try
             {
                 var result = await _repository.GetActiveAsync();
-                var specialties = result.Data?.Select(s => MapToResponse(s)).ToList();
+                var specialties = result.Data?.Select(SpecialtyMapper.ToResponse).ToList();
                 return OperationResult<List<SpecialtyResponse>>.Success(specialties ?? new List<SpecialtyResponse>());
             }
             catch (Exception ex)
@@ -201,17 +202,5 @@ namespace SGCM.Applicaction.Services
                 return OperationResult.Failure("An error occurred while deactivating the specialty.");
             }
         }
-
-        public static SpecialtyResponse MapToResponse(Specialty specialty)
-        {
-            return new SpecialtyResponse
-            {
-                Id = specialty.Id,
-                Name = specialty.Name,
-                Description = specialty.Description,
-                IsActive = specialty.IsActive
-            };
-        }
-
     }
 }

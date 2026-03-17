@@ -6,13 +6,13 @@ using SGCM.Domain.Services.Interfaces;
 
 namespace SGCM.Domain.Services
 {
-    public class NotificationsService : INotificationsService
+    public class NotificationsDomainService : INotificationDomainService
     {
         private readonly INotificationRepository _notificationsRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly IAppointmentsRepository _appointmentsRepository;
 
-        public NotificationsService(INotificationRepository notificationsRepository, IUsersRepository usersRepository, IAppointmentsRepository appointmentsRepository)
+        public NotificationsDomainService(INotificationRepository notificationsRepository, IUsersRepository usersRepository, IAppointmentsRepository appointmentsRepository)
         {
             _notificationsRepository = notificationsRepository;
             _usersRepository = usersRepository;
