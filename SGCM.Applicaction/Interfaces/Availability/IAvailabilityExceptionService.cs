@@ -5,10 +5,10 @@ namespace SGCM.Applicaction.Interfaces.Availability
 {
     public interface IAvailabilityExceptionService : IBaseService<
         IAvailabilityExceptionService,
-        CreateAvailabilityExceptionDto,
-        UpdateAvailabilityExceptionDto,
-        AvailabilityExceptionResponse>
+        CreateNotificationDto,
+        UpdateNotificationDto,
+        NotificationResponse>
     {
-        Task<OperationResult<List<AvailabilityExceptionResponse>>> GetByDoctorIdAsync(int id);
+        Task<OperationResult<List<NotificationResponse>>> GetByDoctorIdAsync(int id);
     }
 }
