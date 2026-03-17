@@ -9,10 +9,13 @@ namespace SGCM.Domain.Services
     public class NotificationsDomainService : INotificationDomainService
     {
         private readonly INotificationRepository _notificationsRepository;
-        private readonly IUsersRepository _usersRepository;
-        private readonly IAppointmentsRepository _appointmentsRepository;
+        private readonly IUserRepository _usersRepository;
+        private readonly IAppointmentRepository _appointmentsRepository;
 
-        public NotificationsDomainService(INotificationRepository notificationsRepository, IUsersRepository usersRepository, IAppointmentsRepository appointmentsRepository)
+        public NotificationsDomainService(
+            INotificationRepository notificationsRepository,
+            IUserRepository usersRepository,
+            IAppointmentRepository appointmentsRepository)
         {
             _notificationsRepository = notificationsRepository;
             _usersRepository = usersRepository;

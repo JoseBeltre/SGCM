@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SGCM.Applicaction.Interfaces.Specialty;
-using SGCM.Applicaction.Services.Specialty;
+using SGCM.Application.Interfaces.Specialty;
+using SGCM.Application.Services.Specialty;
 using SGCM.Domain.Services;
 using SGCM.Domain.Services.Interfaces;
 

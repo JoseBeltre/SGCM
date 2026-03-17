@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SGCM.Applicaction.Interfaces.Notification;
-using SGCM.Applicaction.Services.Notification;
+using SGCM.Application.Interfaces.Notification;
+using SGCM.Application.Services.Notification;
 using SGCM.Domain.Services;
 using SGCM.Domain.Services.Interfaces;
 

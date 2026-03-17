@@ -1,7 +1,7 @@
-﻿using SGCM.Applicaction.DTOs.Availability;
+﻿using SGCM.Application.DTOs.Availability;
 using SGCM.Domain.Base;
 
-namespace SGCM.Applicaction.Interfaces.Availability
+namespace SGCM.Application.Interfaces.Availability
 {
     public interface IAvailabilityService : IBaseService<
         IAvailabilityService,

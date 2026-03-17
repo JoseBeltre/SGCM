@@ -1,5 +1,5 @@
-﻿using SGCM.Applicaction.DTOs.Availability;
-using SGCM.Applicaction.DTOs.Specialty;
+﻿using SGCM.Application.DTOs.Availability;
+using SGCM.Application.DTOs.Specialty;
 using SGCM.Domain.Entities;
 
 namespace SGCM.Application.Mappers

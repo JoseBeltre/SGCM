@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
-using SGCM.Applicaction.DTOs.Notification;
-using SGCM.Applicaction.Interfaces.Notification;
+using SGCM.Application.DTOs.Notification;
+using SGCM.Application.Interfaces.Notification;
 using SGCM.Application.Mappers;
 using SGCM.Domain.Base;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
 using SGCM.Domain.Services.Interfaces;
 
-namespace SGCM.Applicaction.Services.Notification
+namespace SGCM.Application.Services.Notification
 {
     public class NotificationService : INotificationService
     {
@@ -15,14 +15,14 @@ namespace SGCM.Applicaction.Services.Notification
         private readonly INotificationDomainService _notificationDomainService;
         private readonly ILogger<NotificationService> _logger;
         private readonly IAuditLogDomainService _auditLogDomainService;
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUserRepository _usersRepository;
 
         public NotificationService(
             INotificationRepository notificationsRepository,
             INotificationDomainService notificationDomainService,
             IAuditLogDomainService auditLogDomainService,
             ILogger<NotificationService> logger,
-            IUsersRepository usersRepository)
+            IUserRepository usersRepository)
         {
             _notificationRepository = notificationsRepository;
             _notificationDomainService = notificationDomainService;

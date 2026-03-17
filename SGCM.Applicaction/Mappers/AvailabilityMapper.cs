@@ -1,4 +1,4 @@
-﻿using SGCM.Applicaction.DTOs.Availability;
+﻿using SGCM.Application.DTOs.Availability;
 using SGCM.Domain.Entities;
 
 namespace SGCM.Application.Mappers

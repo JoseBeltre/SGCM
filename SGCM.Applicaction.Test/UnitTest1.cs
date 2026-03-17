@@ -1,4 +1,4 @@
-namespace SGCM.Applicaction.Test
+namespace SGCM.Application.Test
 {
     public class UnitTest1
     {

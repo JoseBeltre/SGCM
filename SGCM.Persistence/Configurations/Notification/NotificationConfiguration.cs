@@ -64,5 +64,5 @@ namespace SGCM.Persistence.Configurations
                    .HasForeignKey(x => x.UserId);
         }
     }
-    }
 }
+

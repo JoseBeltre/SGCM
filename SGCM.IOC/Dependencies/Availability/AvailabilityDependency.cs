@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SGCM.Applicaction.Interfaces.Availability;
-using SGCM.Applicaction.Services.Availability;
+using SGCM.Application.Interfaces.Availability;
+using SGCM.Application.Services.Availability;
 using SGCM.Domain.Services;
 using SGCM.Domain.Services.Interfaces;
 
