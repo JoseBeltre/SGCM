@@ -8,6 +8,7 @@ namespace SGCM.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Appointment> builder)
         {
+            builder.ToTable(tb => tb.UseSqlOutputClause(false));
             builder.ToTable("Appointments");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id)

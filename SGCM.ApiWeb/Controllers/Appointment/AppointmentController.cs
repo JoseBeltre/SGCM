@@ -14,7 +14,17 @@ namespace SGCM.ApiWeb.Controllers
             _appointmentService = appointmentService;
         }
 
-        // Ruta para obtener un paciente por su ID
+        // Ruta para obtener una cita por su ID
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _appointmentService.GetByIdAsync(id);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+            return Ok(result.Data);
+        }
+
+        // Ruta para craer una nueva cita
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddAppointmentDto request)
         {
@@ -22,6 +32,26 @@ namespace SGCM.ApiWeb.Controllers
             if (!result.IsSuccess)
                 return NotFound(result.Message);
             return Ok(result.Data);
+        }
+
+        // Ruta para cancelar una cita
+        [HttpPatch("{id:int}/cancelar")]
+        public async Task<IActionResult> Cancel(int id, [FromBody] string reason)
+        {
+            var result = await _appointmentService.CancelAsync(id, reason);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+            return NoContent();
+        }
+
+        // Ruta para confirmar una cita
+        [HttpPatch("{id:int}/confirm")]
+        public async Task<IActionResult> Confirm(int id)
+        {
+            var result = await _appointmentService.ConfirmAsync(id);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+            return NoContent();
         }
     }
 }
