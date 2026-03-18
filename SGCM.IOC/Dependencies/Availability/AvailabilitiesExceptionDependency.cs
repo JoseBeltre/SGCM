@@ -1,14 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SGCM.Applicaction.Interfaces.Availability;
-using SGCM.Applicaction.Services;
+using SGCM.Application.Interfaces.Availability;
+using SGCM.Application.Services;
+using SGCM.Domain.Repository;
+using SGCM.Persistence.Repositories;
 
 namespace SGCM.IOC.Dependencies.Availability
 {
     public static class AvailabilityExceptionDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddAvailabilityException(this IServiceCollection services)
         {
             services.AddScoped<IAvailabilityExceptionService, AvailabilityExceptionService>();
+            services.AddScoped<IAvailabilityExceptionRepository, AvailabilityExceptionRepository>();
+
 
             return services;
         }

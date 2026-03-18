@@ -28,9 +28,9 @@ namespace SGCM.Persistence.Repositories
 
             return OperationResult<Specialty?>.Success(specialty);
         }
-        public async Task<OperationResult<List<Specialty>>> GetActiveAsync()
+        public async Task<OperationResult<List<Specialty>>> GetByStatusAsync(bool isActive)
         {
-            var specialties = await _context.Specialty.Where(s => s.IsActive).ToListAsync();
+            var specialties = await _context.Specialty.Where(s => s.IsActive == isActive).ToListAsync();
 
             return OperationResult<List<Specialty>>.Success(specialties);
         }
@@ -53,7 +53,7 @@ namespace SGCM.Persistence.Repositories
             var existing = await _context.Specialty.FindAsync(entity.Id);
             if (existing == null)
                 return OperationResult<Specialty?>.Failure("Notification not found");
-
+            entity.UpdatedAt = DateTime.UtcNow;
             _context.Entry(existing).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
             return OperationResult<Specialty?>.Success(existing);
@@ -64,7 +64,7 @@ namespace SGCM.Persistence.Repositories
             var entity = await _context.Specialty.FindAsync(specialtyId);
             if (entity == null)
                 return OperationResult<bool>.Failure("Specialty not found.");
-
+            entity.UpdatedAt = DateTime.UtcNow;
             entity.IsActive = false;
             await _context.SaveChangesAsync();
 

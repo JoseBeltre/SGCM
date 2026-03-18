@@ -10,6 +10,6 @@ namespace SGCM.Domain.Enums
     {
         Email,
         SMS,
-        Both
+        Ambos
     }
 }

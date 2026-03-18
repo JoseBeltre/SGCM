@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SGCM.Applicaction.Interfaces;
-using SGCM.Applicaction.Services;
+using SGCM.Application.Interfaces;
+using SGCM.Application.Services;
 using SGCM.Domain.Repository;
 using SGCM.Domain.Services;
 using SGCM.Domain.Services.Interfaces;
@@ -10,7 +10,7 @@ namespace SGCM.IOC.Dependencies.Doctor
 {
     public static class DoctorDependency
     {
-        public static IServiceCollection Register(IServiceCollection services)
+        public static IServiceCollection AddDoctor(this IServiceCollection services)
         {
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();

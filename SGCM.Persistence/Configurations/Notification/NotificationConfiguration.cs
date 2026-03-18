@@ -40,7 +40,6 @@ namespace SGCM.Persistence.Configurations
 
             builder.Property(x => x.Status)
                    .HasMaxLength(20)
-                   .HasDefaultValue("Pendiente")
                    .IsRequired();
 
             builder.Property(x => x.SentAt);
@@ -64,5 +63,5 @@ namespace SGCM.Persistence.Configurations
                    .HasForeignKey(x => x.UserId);
         }
     }
-    }
 }
+
