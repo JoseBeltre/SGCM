@@ -9,7 +9,7 @@ namespace SGCM.Application.DTOs.Appointment
         public required int DoctorId { get; init; }
         public DateTime AppointmentDate { get; init; }
         public int DurationMinutes { get; init; }
-        public AppointmentStatus Status { get; init; }
+        public string Status { get; init; } = string.Empty;
         public string? ConsultationReason { get; init; }
         public string? DoctorNotes { get; init; }
         public string? CancellationReason { get; init; }

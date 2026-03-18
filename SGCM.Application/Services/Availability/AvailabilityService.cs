@@ -3,7 +3,6 @@ using SGCM.Application.DTOs.Availability;
 using SGCM.Application.Interfaces.Availability;
 using SGCM.Application.Mappers;
 using SGCM.Domain.Base;
-using SGCM.Domain.Entities;
 using SGCM.Domain.Enums;
 using SGCM.Domain.Repository;
 

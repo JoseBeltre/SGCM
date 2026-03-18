@@ -8,7 +8,7 @@ namespace SGCM.Application.DTOs.Availability
         public required int DoctorId { get; init; }
         public TimeSpan StartTime { get; init; }
         public TimeSpan EndTime { get; init; }
-        public Domain.Enums.DayOfWeek DayOfWeek { get; init; }
+        public string DayOfWeek { get; init; } = string.Empty;
         public bool IsActive { get; init; }
         public int AppointmentDuration { get; init; }
     }

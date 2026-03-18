@@ -14,7 +14,7 @@ namespace SGCM.Application.Mappers
                 DoctorId = appointment.DoctorId,
                 AppointmentDate = appointment.AppointmentDate,
                 DurationMinutes = appointment.DurationMinutes,
-                Status = appointment.Status,
+                Status = appointment.Status.ToString(),
                 ConsultationReason = appointment.ConsultationReason,
                 DoctorNotes = appointment.DoctorNotes,
                 CancellationReason = appointment.CancellationReason
