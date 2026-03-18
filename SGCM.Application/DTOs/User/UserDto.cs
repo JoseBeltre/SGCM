@@ -8,7 +8,7 @@ namespace SGCM.Application.DTOs.User
         public required string FullName { get; init; }
         public required string Email { get; init; }
         public string? Phone { get; init; }
-        public UserType UserType { get; init; }
+        public string UserType { get; init; } = Domain.Enums.UserType.Paciente.ToString();
         public bool IsActive { get; init; }
         public DateTime? LastAccess { get; init; }
     }
