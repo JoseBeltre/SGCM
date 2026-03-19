@@ -7,12 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Base\" />
-    <Folder Include="Entities\Citas\" />
-    <Folder Include="Entities\Catalogos\" />
-    <Folder Include="Entities\Auditoria\" />
-    <Folder Include="Entities\Usuarios\" />
-    <Folder Include="Repository\" />
+    <Compile Remove="Entities\Auditoria\**" />
+    <Compile Remove="Entities\Catalogos\**" />
+    <Compile Remove="Entities\Citas\**" />
+    <Compile Remove="Entities\Usuarios\**" />
+    <EmbeddedResource Remove="Entities\Auditoria\**" />
+    <EmbeddedResource Remove="Entities\Catalogos\**" />
+    <EmbeddedResource Remove="Entities\Citas\**" />
+    <EmbeddedResource Remove="Entities\Usuarios\**" />
+    <None Remove="Entities\Auditoria\**" />
+    <None Remove="Entities\Catalogos\**" />
+    <None Remove="Entities\Citas\**" />
+    <None Remove="Entities\Usuarios\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
