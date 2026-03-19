@@ -13,7 +13,7 @@ namespace SGCM.Application.Mappers
                 FullName = user.FullName,
                 Email = user.Email,
                 Phone = user.Phone,
-                UserType = user.UserType,
+                UserType = user.UserType.ToString(),
                 IsActive = user.IsActive,
                 LastAccess = user.LastAccess
             };
