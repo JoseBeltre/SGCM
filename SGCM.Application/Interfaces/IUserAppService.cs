@@ -10,6 +10,7 @@ namespace SGCM.Application.Interfaces
         UpdateUserDto,
         UserDto>
     {
+        Task<OperationResult<UserDto>> UpdateAsync(int id, UpdateUserDto updateDto);
         Task<OperationResult> DeactivateAsync(int id);
     }
 }

@@ -11,7 +11,6 @@ namespace SGCM.Application.Base
         Task<OperationResult<TResponse>> CreateAsync(TCreateDto createDto);
         Task<OperationResult<TResponse>> GetByIdAsync(int id);
         Task<OperationResult<List<TResponse>>> GetAllAsync();
-        Task<OperationResult<TResponse>> UpdateAsync(TUpdateDto updateDto);
         Task<OperationResult> DeleteAsync(int id);
     }
 }
