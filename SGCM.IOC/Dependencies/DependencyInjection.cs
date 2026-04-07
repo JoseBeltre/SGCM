@@ -8,6 +8,7 @@ using SGCM.IOC.Dependencies.Notification;
 using SGCM.IOC.Dependencies.Specialty;
 using SGCM.IOC.Dependencies.SystemSetting;
 using SGCM.IOC.Dependencies.User;
+using SGCM.IOC.Dependencies.Authentication;
 
 namespace SGCM.IOC.Dependencies
 {
@@ -25,7 +26,8 @@ namespace SGCM.IOC.Dependencies
                 .AddDoctor()
                 .AddPatient()
                 .AddSystemSettings()
-                .AddAppointment();
+                .AddAppointment()
+                .AddAuth();
 
         }
     }
