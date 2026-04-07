@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SGCM.Application.DTOs.Patient;
 using SGCM.Application.Interfaces;
 
 namespace SGCM.ApiWeb.Controllers.Patient
@@ -34,6 +35,16 @@ namespace SGCM.ApiWeb.Controllers.Patient
             var result = await _appointmentService.GetByDoctorIdAsync(id);
             if (!result.IsSuccess)
                 return NotFound(result.Message);
+            return Ok(result.Data);
+        }
+
+        // Ruta para crear un nuevo paciente
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] AddPatientDto newPatient)
+        {
+            var result = await _patientService.CreateAsync(newPatient);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
             return Ok(result.Data);
         }
     }
