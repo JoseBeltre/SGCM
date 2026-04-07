@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using SGCM.Application.DTOs.Doctor;
 using SGCM.Application.Interfaces;
 using SGCM.Application.Mappers;
@@ -15,17 +15,20 @@ namespace SGCM.Application.Services
         private readonly IDoctorRepository _repository;
         private readonly IDoctorService _domainService;
         private readonly IAuditLogDomainService _auditLogService;
+        private readonly IUserRepository _userRepository;
         private readonly ILogger<DoctorAppService> _logger;
 
         public DoctorAppService(
             IDoctorRepository repository,
             IDoctorService domainService,
             IAuditLogDomainService auditLogService,
+            IUserRepository userRepository,
             ILogger<DoctorAppService> logger)
         {
             _repository = repository;
             _domainService = domainService;
             _auditLogService = auditLogService;
+            _userRepository = userRepository;
             _logger = logger;
         }
 
@@ -62,7 +65,8 @@ namespace SGCM.Application.Services
                     userAgent: "");
 
                 _logger.LogInformation("Doctor created with ID: {DoctorId}", result.Data.Id);
-                return OperationResult<DoctorDto>.Success(DoctorMapper.ToResponse(result.Data));
+                var userResult = await _userRepository.GetByIdAsync(result.Data.UserId);
+                return OperationResult<DoctorDto>.Success(DoctorMapper.ToResponse(result.Data, userResult.Data));
             }
             catch (Exception ex)
             {
@@ -79,7 +83,8 @@ namespace SGCM.Application.Services
                 if (!result.IsSuccess || result.Data == null)
                     return OperationResult<DoctorDto>.Failure(result.Message);
 
-                return OperationResult<DoctorDto>.Success(DoctorMapper.ToResponse(result.Data));
+                var userResult = await _userRepository.GetByIdAsync(result.Data.UserId);
+                return OperationResult<DoctorDto>.Success(DoctorMapper.ToResponse(result.Data, userResult.Data));
             }
             catch (Exception ex)
             {
@@ -93,8 +98,12 @@ namespace SGCM.Application.Services
             try
             {
                 var result = await _repository.GetAllAsync();
-                var doctors = result.Data?.Select(DoctorMapper.ToResponse).ToList();
-                return OperationResult<List<DoctorDto>>.Success(doctors ?? new List<DoctorDto>());
+                var doctors = result.Data ?? new List<Doctor>();
+                var usersResult = await _userRepository.GetAllAsync();
+                var users = usersResult.Data ?? new List<User>();
+                
+                var dtos = doctors.Select(d => DoctorMapper.ToResponse(d, users.FirstOrDefault(u => u.Id == d.UserId))).ToList();
+                return OperationResult<List<DoctorDto>>.Success(dtos);
             }
             catch (Exception ex)
             {
@@ -130,7 +139,8 @@ namespace SGCM.Application.Services
                     userAgent: "");
 
                 _logger.LogInformation("Doctor updated with ID: {DoctorId}", result.Data.Id);
-                return OperationResult<DoctorDto>.Success(DoctorMapper.ToResponse(result.Data));
+                var userResult = await _userRepository.GetByIdAsync(result.Data.UserId);
+                return OperationResult<DoctorDto>.Success(DoctorMapper.ToResponse(result.Data, userResult.Data));
             }
             catch (Exception ex)
             {
@@ -174,8 +184,12 @@ namespace SGCM.Application.Services
             try
             {
                 var result = await _repository.GetDoctorsBySpecialtyIdAsync(specialtyId);
-                var doctors = result.Data?.Select(DoctorMapper.ToResponse).ToList();
-                return OperationResult<List<DoctorDto>>.Success(doctors ?? new List<DoctorDto>());
+                var doctors = result.Data ?? new List<Doctor>();
+                var usersResult = await _userRepository.GetAllAsync();
+                var users = usersResult.Data ?? new List<User>();
+                
+                var dtos = doctors.Select(d => DoctorMapper.ToResponse(d, users.FirstOrDefault(u => u.Id == d.UserId))).ToList();
+                return OperationResult<List<DoctorDto>>.Success(dtos);
             }
             catch (Exception ex)
             {
