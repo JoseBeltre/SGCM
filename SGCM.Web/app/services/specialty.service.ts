@@ -6,7 +6,7 @@ export const useSpecialtyService = () => {
 
   // GET: Obtener todas las especialidades
   const getAllSpecialties = async (): Promise<Specialty[]> => {
-    return await api("/specialty")
+    return await api('/specialty')
   }
 
   // GET: Obtener detalles de una especialidad por su ID

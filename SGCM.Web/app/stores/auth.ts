@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!user.value)
 
   /**
-   * Inicia sesión gestionando el estado de carga y errores HTTP.
+   * Inicia sesión gestionando el estado de carga y errores HTTP
    */
   const login = async (credentials: any) => {
     loading.value = true
@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
-   * Registra y auto-loggea a un paciente nuevo.
+   * Registra y auto-loggea a un paciente nuevo
    */
   const register = async (userData: any) => {
     loading.value = true
@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
-   * Cierra completamente la sesión y envía al usuario al portal de acceso.
+   * Cierra completamente la sesión y envía al usuario al portal de acceso
    */
   const logout = async () => {
     try {
@@ -69,7 +69,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
-   * Recupera silenciosamente la sesión leyendo la Cookie desde .NET.
+   * Recupera silenciosamente la sesión leyendo la Cookie
    */
   const fetchUser = async () => {
     if (isInitialized.value) return

@@ -2,7 +2,7 @@ import type {
   Appointment,
   CreateAppointment,
 } from "~/models/appointment.model"
-import { useAppointementService } from "~/services/appointement.service"
+import { useAppointementService } from "~/services/appointment.service"
 
 export function useAppointment() {
   const appointmentService = useAppointementService()
@@ -11,11 +11,24 @@ export function useAppointment() {
   const error = ref<string | null>(null)
   const loading = ref<boolean>(false)
 
+  const { patient, getPatientByUserId } = usePatient()
+
   const createAppointment = async (
     appointmentData: CreateAppointment,
   ): Promise<Appointment | undefined> => {
     loading.value = true
     error.value = null
+
+    await getPatientByUserId(appointmentData.patientId)
+    if (!patient) {
+      error.value = "Paciente no encontrado para el ID de usuario proporcionado"
+      loading.value = false
+      return
+    }
+    console.log("Paciente encontrado:", patient)
+    appointmentData.patientId = patient.value!.id
+    console.log("Datos de cita actualizados con patientId:", appointmentData)
+
     try {
       const response =
         await appointmentService.createAppointment(appointmentData)
