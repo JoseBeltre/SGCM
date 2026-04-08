@@ -1,11 +1,11 @@
-﻿using SGCM.Application.DTOs.Doctor;
+using SGCM.Application.DTOs.Doctor;
 using SGCM.Domain.Entities;
 
 namespace SGCM.Application.Mappers
 {
     public static class DoctorMapper
     {
-        public static DoctorDto ToResponse(Doctor doctor)
+        public static DoctorDto ToResponse(Doctor doctor, User? user = null)
         {
             return new DoctorDto
             {
@@ -16,7 +16,10 @@ namespace SGCM.Application.Mappers
                 LicenseNumber = doctor.LicenseNumber,
                 HireDate = doctor.HireDate,
                 AssignedOffice = doctor.AssignedOffice,
-                IsActive = doctor.IsActive
+                IsActive = doctor.IsActive,
+                FullName = user?.FullName,
+                Email = user?.Email,
+                Phone = user?.Phone
             };
         }
     }
