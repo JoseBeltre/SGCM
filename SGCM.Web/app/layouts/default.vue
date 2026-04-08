@@ -13,14 +13,21 @@
           <div class="flex items-center space-x-4">
             <template v-if="authStore.isAuthenticated">
               <div class="text-right flex flex-col justify-center">
-                <span class="text-sm font-bold text-sky-reflection-900 leading-tight">{{ authStore.user?.fullName || 'Usuario' }}</span>
-                <span v-if="authStore.user?.nationalId" class="text-xs text-charcoal-brown-500 font-medium">Cédula: {{ authStore.user.nationalId }}</span>
+                <span class="text-sm font-bold text-sky-reflection-900 leading-tight">{{ authStore.user?.fullName ||
+                  'Usuario' }}</span>
+                <span class="text-xs text-charcoal-brown-500 font-medium">{{ authStore.user?.userType || 'Usuario'
+                  }}</span>
               </div>
-              <button @click="authStore.logout" class="text-xs font-semibold bg-charcoal-brown-100 text-charcoal-brown-700 px-3 py-1.5 rounded-full hover:bg-charcoal-brown-200 transition-colors ml-2">Salir</button>
+              <button @click="authStore.logout"
+                class="text-xs font-semibold bg-charcoal-brown-100 text-charcoal-brown-700 px-3 py-1.5 rounded-full hover:bg-charcoal-brown-200 transition-colors ml-2">Salir</button>
             </template>
             <template v-else>
-              <button class="text-sm font-medium text-charcoal-brown-600 hover:text-sky-reflection-600 transition-colors hidden sm:block" @click="navigateTo('/auth/login')">Iniciar Sesión</button>
-              <button class="text-sm font-semibold bg-sky-reflection-500 text-white px-4 py-2 rounded-full hover:bg-sky-reflection-600 hover:shadow-md transition-all" @click="navigateTo('/auth/register')">Registrarse</button>
+              <button
+                class="text-sm font-medium text-charcoal-brown-600 hover:text-sky-reflection-600 transition-colors hidden sm:block"
+                @click="navigateTo('/auth/login')">Iniciar Sesión</button>
+              <button
+                class="text-sm font-semibold bg-sky-reflection-500 text-white px-4 py-2 rounded-full hover:bg-sky-reflection-600 hover:shadow-md transition-all"
+                @click="navigateTo('/auth/register')">Registrarse</button>
             </template>
           </div>
         </div>
@@ -36,7 +43,9 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-charcoal-brown-100 py-6 text-center">
-      <p class="text-sm text-charcoal-brown-600">&copy; {{ new Date().getFullYear() }} Sistema de Gestión de Citas Médicas. Desarrollado por José Beltre.</p>
+      <p class="text-sm text-charcoal-brown-600">&copy; {{ new Date().getFullYear() }} Sistema de Gestión de Citas
+        Médicas.
+        Desarrollado por José Beltre.</p>
     </footer>
   </div>
 </template>
@@ -52,6 +61,7 @@ const authStore = useAuthStore()
 .page-leave-active {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
@@ -62,13 +72,16 @@ const authStore = useAuthStore()
 .slide-fade-enter-active {
   transition: all 0.4s ease-out;
 }
+
 .slide-fade-leave-active {
   transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
+
 .slide-fade-enter-from {
   transform: translateX(15px);
   opacity: 0;
 }
+
 .slide-fade-leave-to {
   transform: translateX(-15px);
   opacity: 0;

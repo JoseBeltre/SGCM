@@ -23,8 +23,8 @@ const isSubmitting = ref(false)
 const showSuccessModal = ref(false)
 
 const handleBookingFinal = async () => {
-  if (!doctor.value || !date.value || !time.value || !authStore.user?.id) {
-    alert("Faltan datos para completar la reserva o necesitas un perfil de paciente. Asegúrate de estar autenticado correctamente.")
+  if (!doctor.value || !date.value || !time.value || !authStore.user?.profileId) {
+    alert("Faltan datos para completar la reserva o necesitas un perfil.")
     return
   }
 
@@ -44,18 +44,11 @@ const handleBookingFinal = async () => {
     const localDate = new Date(year, month - 1, day, hours, minutes)
     const combinedDate = localDate.toISOString()
 
-    console.log("Booking appointment with:", {
-      patientId: authStore.user.id,
-      doctorId: doctor.value.id,
-      appointmentDate: combinedDate,
-      durationMinutes: 45
-    })
-
     await createAppointment({
-      patientId: authStore.user.id,
+      patientId: authStore.user.profileId,
       doctorId: doctor.value.id,
       appointmentDate: combinedDate,
-      durationMinutes: 45, // Estandar
+      durationMinutes: 45, // Estandar 45 minutos por consulta
       consultationReason: 'Consulta general'
     })
 

@@ -36,7 +36,6 @@ if (!doctor.value) {
   emit('prev')
 }
 
-// 0 es Domingo en JS y en VueDatePicker
 const dayMap: Record<string, number> = {
   'Domingo': 0,
   'Lunes': 1,
@@ -63,7 +62,6 @@ const onDateSelected = (newDate: Date) => {
     date.value = isoDate
     // Reiniciamos la hora cuando el día cambia
     time.value = null
-    console.log('Selected date:', isoDate)
 
     emit('next')
   }

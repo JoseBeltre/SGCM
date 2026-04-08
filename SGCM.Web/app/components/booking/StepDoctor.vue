@@ -1,3 +1,22 @@
+<script lang="ts" setup>
+import { UserX, Check, MapPin } from 'lucide-vue-next'
+import type { Doctor } from '~/models/doctor.model'
+
+const emit = defineEmits(['next', 'prev'])
+const { doctor, specialty } = useBooking()
+const { getDoctorsBySpecialtyId, doctors, loading } = useDoctor()
+
+const selectDoctor = (doc: Doctor) => {
+  doctor.value = doc
+  emit('next')
+}
+
+onMounted(async () => {
+  if (specialty.value !== null) {
+    await getDoctorsBySpecialtyId(specialty.value.id)
+  }
+})
+</script>
 <template>
   <div class="animate-in fade-in slide-in-from-right-4 duration-500">
     <div class="mb-6">
@@ -50,23 +69,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { UserX, Check, MapPin } from 'lucide-vue-next'
-import type { Doctor } from '~/models/doctor.model'
-
-const emit = defineEmits(['next', 'prev'])
-const { doctor, specialty } = useBooking()
-const { getDoctorsBySpecialtyId, doctors, loading } = useDoctor()
-
-const selectDoctor = (doc: Doctor) => {
-  doctor.value = doc
-  emit('next')
-}
-
-onMounted(async () => {
-  if (specialty.value !== null) {
-    await getDoctorsBySpecialtyId(specialty.value.id)
-  }
-})
-</script>

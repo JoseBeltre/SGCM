@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { Stethoscope, Activity } from 'lucide-vue-next'
+import type { Specialty } from '~/models/specialty.model'
+
+const emit = defineEmits(["next", "prev"])
+const { specialty } = useBooking()
+const { getSpecialties, specialties, loading, error } = useSpecialty()
+
+const selectSpecialty = (spec: Specialty) => {
+  specialty.value = spec
+  emit("next")
+}
+
+onMounted(async () => {
+  await getSpecialties()
+})
+</script>
 <template>
   <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
     <div class="mb-6">
@@ -41,21 +58,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Stethoscope, Activity } from 'lucide-vue-next'
-import type { Specialty } from '~/models/specialty.model'
-
-const emit = defineEmits(["next", "prev"])
-const { specialty } = useBooking()
-const { getSpecialties, specialties, loading, error } = useSpecialty()
-
-const selectSpecialty = (spec: Specialty) => {
-  specialty.value = spec
-  emit("next")
-}
-
-onMounted(async () => {
-  await getSpecialties()
-})
-</script>
