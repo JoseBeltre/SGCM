@@ -7,10 +7,11 @@
         <div>
           <h1 class="text-2xl md:text-3xl font-extrabold text-charcoal-brown-900 tracking-tight">
             Hola,
-            <span class="text-sky-reflection-600">{{ authStore.user?.userType === 'Paciente' ? 'Paciente' :
-              authStore.user?.userType === 'Medico' ? 'Dr/a.' : 'Usuario' }} {{ authStore.user?.fullName || "Usuario"
-              }}</span>
-            ??
+            <span class="text-sky-reflection-600">
+              {{ authStore.user?.userType === 'Medico' ? 'Dr/a. ' : '' }}
+              {{ authStore.user?.fullName || "Usuario" }}
+            </span>
+            👋
           </h1>
           <p class="mt-2 leading-5 md:text-lg text-charcoal-brown-500">
             Bienvenido a tu portal de salud. ¿Qué necesitas hacer hoy?
