@@ -20,5 +20,14 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/api/**': { proxy: 'http://localhost:5055/api/**' }
+  },
+  app: {
+    head: {
+      title: 'SGCM',
+      titleTemplate: '%s | SGCM',
+      link: [
+        { rel: 'icon', href: '/favicon.ico' }
+      ]
+    }
   }
 })

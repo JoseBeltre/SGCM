@@ -36,7 +36,6 @@ if (!doctor.value) {
   emit('prev')
 }
 
-// 0 es Domingo en JS y en VueDatePicker
 const dayMap: Record<string, number> = {
   'Domingo': 0,
   'Lunes': 1,

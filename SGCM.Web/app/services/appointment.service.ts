@@ -1,7 +1,7 @@
 import type { Appointment, CreateAppointment } from '~/models/appointment.model'
 import { useApiClient } from './http/apiClient'
 
-export const useAppointementService = () => {
+export const useAppointmentService = () => {
   const api = useApiClient()
 
   // POST: Crear una nueva cita

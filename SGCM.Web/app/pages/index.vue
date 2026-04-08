@@ -123,27 +123,26 @@ import { ref, onMounted, computed } from 'vue'
 import { navigateTo } from "#app"
 import { LucideCalendar, LucideClock } from "lucide-vue-next"
 import DynamicModal from '~/components/ui/DynamicModal.vue'
-import { useAppointementService } from '~/services/appointment.service'
-import { useDoctorService } from '~/services/doctor.service'
 import type { Appointment } from '~/models/appointment.model'
 import type { Doctor } from '~/models/doctor.model'
 import { getStatusClass, formatDate, formatTime, getDoctorName } from '~/utils/appointment.utils'
 
 const authStore = useAuthStore()
-const appointmentService = useAppointementService()
-const doctorService = useDoctorService()
+const { getAppointmentsByPatientId, confirmAppointment, cancelAppointment, appointments } = useAppointment()
+const { getDoctorById } = useDoctor()
 
-const appointments = ref<Appointment[]>([])
 const doctorCache = ref<Record<number, Doctor>>({})
 const loading = ref(true)
+
+type ModalVariant = 'success' | 'warning' | 'error' | 'info'
 
 // Estado del Modal Dinámico
 const modalState = ref({
   isOpen: false,
-  variant: 'info' as any,
+  variant: 'info' as ModalVariant,
   title: '',
   description: '',
-  type: '', // 'cancel-reason', 'error', 'success', 'confirm'
+  type: '',
   showConfirm: true,
   showCancel: true,
   confirmText: 'Aceptar',
@@ -164,16 +163,18 @@ const loadData = async () => {
   }
   loading.value = true
   try {
-    const data = await appointmentService.getAppointmentsByPatientId(authStore.user.patientId)
-    appointments.value = data
+    await getAppointmentsByPatientId(authStore.user.patientId)
 
     // Extraer IDs únicos de doctores
-    const doctorIds = [...new Set(data.map(apt => apt.doctorId))]
+    const doctorIds = [...new Set(appointments.value.map((apt: Appointment) => apt.doctorId))].filter((id): id is number => !!id)
 
     // Cargar info de los doctores que faltan en caché
     for (const docId of doctorIds) {
       if (!doctorCache.value[docId]) {
-        doctorCache.value[docId] = await doctorService.getDoctorById(docId)
+        const doctor = await getDoctorById(docId)
+        if (doctor) {
+          doctorCache.value[docId] = doctor
+        }
       }
     }
   } catch (error) {
@@ -190,7 +191,7 @@ onMounted(() => {
 // --- LÓGICA DE CONFIRMACIÓN ---
 const confirmAppointmentAction = async (id: number) => {
   try {
-    await appointmentService.confirmAppointment(id)
+    await confirmAppointment(id)
     await loadData()
     showModal('success', '¡Cita Confirmada!', 'Nos vemos pronto. Gracias por confirmar su asistencia.', 'Aceptar')
   } catch (error) {
@@ -226,12 +227,12 @@ const handleModalConfirm = async () => {
   if (modalState.value.type === 'cancel-reason' && modalState.value.targetAppointmentId) {
     if (!cancelReason.value.trim()) {
       alert("Por favor ingresa un motivo para poder cancelar.")
-      modalState.value.isOpen = true // Prevent closing visually
+      modalState.value.isOpen = true
       return
     }
 
     try {
-      await appointmentService.cancelAppointment(modalState.value.targetAppointmentId, cancelReason.value)
+      await cancelAppointment(modalState.value.targetAppointmentId, cancelReason.value)
       await loadData()
       showModal('success', 'Cita Cancelada', 'La cita fue cancelada exitosamente.', 'Aceptar')
     } catch (e) {
@@ -240,7 +241,7 @@ const handleModalConfirm = async () => {
   }
 }
 
-const showModal = (variant: any, title: string, description: string, confirmText = 'Aceptar', showCancel = false) => {
+const showModal = (variant: ModalVariant, title: string, description: string, confirmText = 'Aceptar', showCancel = false) => {
   modalState.value = {
     isOpen: true,
     variant,
