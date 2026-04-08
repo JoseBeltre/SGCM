@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SGCM.Application.DTOs.Patient;
 using SGCM.Application.Interfaces;
 
@@ -28,11 +28,21 @@ namespace SGCM.ApiWeb.Controllers.Patient
             return Ok(result.Data);
         }
 
+        // Ruta para obtener un paciente por su UserId
+        [HttpGet("user/{userId:int}")]
+        public async Task<IActionResult> GetByUserId(int userId)
+        {
+            var result = await _patientService.GetByUserIdAsync(userId);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+            return Ok(result.Data);
+        }
+
         // Ruta para obtener las citas de un paciente
         [HttpGet("{id:int}/appointments")]
-        public async Task<IActionResult> GetDoctorAppointments(int id)
+        public async Task<IActionResult> GetPatientAppointments(int id)
         {
-            var result = await _appointmentService.GetByDoctorIdAsync(id);
+            var result = await _appointmentService.GetByPatientIdAsync(id);
             if (!result.IsSuccess)
                 return NotFound(result.Message);
             return Ok(result.Data);

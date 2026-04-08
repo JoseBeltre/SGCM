@@ -11,5 +11,6 @@ namespace SGCM.Application.Interfaces
         PatientDto>
     {
         Task<OperationResult<PatientDto>> GetByNationalIdAsync(string nationalId);
+        Task<OperationResult<PatientDto>> GetByUserIdAsync(int userId);
     }
 }

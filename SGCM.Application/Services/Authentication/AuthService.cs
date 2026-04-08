@@ -34,16 +34,21 @@ namespace SGCM.Application.Services.Authentication
                 return OperationResult<AuthSessionDto>.Failure("Credenciales inválidas.");
 
             string? nationalId = null;
+            int? patientId = null;
             if (user.Data.UserType == UserType.Paciente)
             {
                 var patient = await _patientRepository.GetByUserIdAsync(user.Data.Id);
                 if (patient.IsSuccess && patient.Data != null)
+                {
                     nationalId = patient.Data.NationalId;
+                    patientId = patient.Data.Id;
+                }
             }
 
             return OperationResult<AuthSessionDto>.Success(new AuthSessionDto
             {
                 Id = user.Data.Id,
+                PatientId = patientId,
                 FullName = user.Data.FullName,
                 Email = user.Data.Email,
                 UserType = user.Data.UserType.ToString(),
@@ -97,6 +102,7 @@ namespace SGCM.Application.Services.Authentication
             return OperationResult<AuthSessionDto>.Success(new AuthSessionDto
             {
                 Id = userResult.Data.Id,
+                PatientId = patientResult.Data.Id,
                 FullName = userResult.Data.FullName,
                 Email = userResult.Data.Email,
                 UserType = userResult.Data.UserType.ToString(),
@@ -111,16 +117,21 @@ namespace SGCM.Application.Services.Authentication
                 return OperationResult<AuthSessionDto>.Failure("Session invalid or user inactive");
 
             string? nationalId = null;
+            int? patientId = null;
             if (user.Data.UserType == UserType.Paciente)
             {
                 var patient = await _patientRepository.GetByUserIdAsync(user.Data.Id);
                 if (patient.IsSuccess && patient.Data != null)
+                {
                     nationalId = patient.Data.NationalId;
+                    patientId = patient.Data.Id;
+                }
             }
 
             return OperationResult<AuthSessionDto>.Success(new AuthSessionDto
             {
                 Id = user.Data.Id,
+                PatientId = patientId,
                 FullName = user.Data.FullName,
                 Email = user.Data.Email,
                 UserType = user.Data.UserType.ToString(),

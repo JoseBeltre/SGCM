@@ -197,5 +197,23 @@ namespace SGCM.Application.Services
                 return OperationResult<PatientDto>.Failure("An error occurred while fetching the patient.");
             }
         }
+
+        public async Task<OperationResult<PatientDto>> GetByUserIdAsync(int userId)
+        {
+            try
+            {
+                var result = await _repository.GetByUserIdAsync(userId);
+                if (!result.IsSuccess || result.Data == null)
+                    return OperationResult<PatientDto>.Failure("Patient not found.");
+
+                var userResult = await _userRepository.GetByIdAsync(userId);
+                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data, userResult.Data));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching patient by User ID.");
+                return OperationResult<PatientDto>.Failure("An error occurred while fetching the patient.");
+            }
+        }
     }
 }
