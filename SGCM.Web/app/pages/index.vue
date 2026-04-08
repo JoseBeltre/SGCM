@@ -7,13 +7,16 @@
         <div>
           <h1 class="text-2xl md:text-3xl font-extrabold text-charcoal-brown-900 tracking-tight">
             Hola,
-            <span class="text-sky-reflection-600">{{ authStore.user?.fullName || "Paciente" }}</span> 👋
+            <span class="text-sky-reflection-600">{{ authStore.user?.userType === 'Paciente' ? 'Paciente' :
+              authStore.user?.userType === 'Medico' ? 'Dr/a.' : 'Usuario' }} {{ authStore.user?.fullName || "Usuario"
+              }}</span>
+            ??
           </h1>
           <p class="mt-2 leading-5 md:text-lg text-charcoal-brown-500">
             Bienvenido a tu portal de salud. ¿Qué necesitas hacer hoy?
           </p>
         </div>
-        <div class="flex-1">
+        <div class="flex-1" v-if="authStore.user?.userType === 'Paciente'">
           <button @click="navigateTo('/booking')"
             class="inline-flex items-center justify-center w-full md:w-auto px-6 py-4 border border-transparent rounded-lg text-base font-bold text-white bg-sky-reflection-500 hover:bg-sky-reflection-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-reflection-500 transition-all transform hover:-translate-y-1">
             <LucideCalendar class="h-6 w-6 mr-2" />
@@ -36,70 +39,50 @@
           <div v-if="loading" class="flex justify-center py-10">
             <LucideClock class="h-10 w-10 text-charcoal-brown-300 animate-spin" />
           </div>
-          <!-- Estado vacío -->
-          <div v-else-if="appointments.length === 0" class="text-center py-16">
+          <!-- Estado vacio -->
+          <div v-else-if="allAppointments.length === 0" class="text-center py-16">
             <div class="mx-auto w-24 h-24 bg-charcoal-brown-50 rounded-full flex items-center justify-center mb-4">
               <LucideClock class="h-10 w-10 text-charcoal-brown-300" />
             </div>
-            <h3 class="text-lg font-bold text-charcoal-brown-900 mb-2">No tienes citas programadas</h3>
+            <h3 class="text-lg font-bold text-charcoal-brown-900 mb-2">
+              No tienes citas
+              {{ authStore.user?.userType === 'Paciente' ? 'programadas' : 'asignadas' }}.
+            </h3>
             <p class="text-charcoal-brown-500 max-w-sm mx-auto">
-              Aquí aparecerán todas tus consultas médicas. Para comenzar, agenda una cita con uno de nuestros
-              especialistas.
+              Aquí aparecerán todas tus consultas médicas.
+              <span v-if="authStore.user?.userType === 'Paciente'">
+                Para comenzar, agenda una cita con uno de nuestros
+                especialistas.
+              </span>
             </p>
-            <div class="mt-8">
+            <div class="mt-8" v-if="authStore.user?.userType === 'Paciente'">
               <button @click="navigateTo('/booking')"
                 class="text-sky-reflection-600 font-semibold hover:text-sky-reflection-700 transition-colors">
-                Ver doctores disponibles →
+                Ver doctores disponibles ?
               </button>
             </div>
           </div>
 
           <!-- Listado de Citas -->
-          <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="apt in sortedAppointments" :key="apt.id"
-              class="border border-charcoal-brown-100 rounded-2xl p-6 hover:shadow-md transition-shadow relative">
-              <div class="flex justify-between items-start mb-4">
-                <span :class="getStatusClass(apt.status)"
-                  class="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                  {{ apt.status }}
-                </span>
-              </div>
-
-              <div class="mb-4">
-                <p class="text-2xl font-extrabold text-charcoal-brown-900">
-                  {{ formatDate(apt.appointmentDate) }}
-                </p>
-                <p class="text-sm font-medium text-charcoal-brown-500 flex items-center mt-1">
-                  <LucideClock class="w-4 h-4 mr-1" />
-                  {{ formatTime(apt.appointmentDate) }}
-                </p>
-              </div>
-
-              <div class="mb-6">
-                <p class="text-sm text-charcoal-brown-500">Doctor</p>
-                <p class="font-semibold text-charcoal-brown-900">
-                  {{ getDoctorName(apt.doctorId, doctorCache) }}
-                </p>
-              </div>
-
-              <!-- Acciones -->
-              <div class="space-y-2 border-t border-charcoal-brown-50 pt-4"
-                v-if="apt.status === 'Solicitada' || apt.status === 'Confirmada'">
-                <button v-if="apt.status === 'Solicitada'" @click="confirmAppointmentAction(apt.id)"
-                  class="w-full text-center py-2 bg-palm-leaf-100 text-palm-leaf-800 hover:bg-palm-leaf-200 rounded-xl font-bold transition-colors text-sm">
-                  Confirmar Asistencia
-                </button>
-                <button @click="initiateCancel(apt)"
-                  class="w-full text-center py-2 bg-white border border-red-200 text-red-600 hover:bg-red-50 rounded-xl font-bold transition-colors text-sm">
-                  Cancelar Cita
-                </button>
-              </div>
-            </div>
+          <div v-else :class="[
+            'gap-6',
+            authStore.user?.userType === 'Paciente' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'flex flex-col'
+          ]">
+            <template v-if="authStore.user?.userType === 'Paciente'">
+              <PatientAppointmentCard v-for="apt in sortedAppointments" :key="apt.id"
+                :appointment="apt"
+                :doctorCache="doctorCache" @confirm="confirmAppointmentAction" @cancel="initiateCancel" />
+            </template>
+            <template v-else>
+              <DoctorAppointmentCard v-for="apt in sortedAppointments" :key="apt.id"
+                :appointment="apt"
+                :patientCache="patientCache" />
+            </template>
           </div>
         </div>
       </section>
 
-      <!-- Modals Dinámicos -->
+      <!-- Modals Dinamicos -->
       <DynamicModal :isOpen="modalState.isOpen" :variant="modalState.variant" :title="modalState.title"
         :description="modalState.description" :showConfirm="modalState.showConfirm" :showCancel="modalState.showCancel"
         :confirmText="modalState.confirmText" @confirm="handleModalConfirm" @close="modalState.isOpen = false">
@@ -123,15 +106,20 @@ import { ref, onMounted, computed } from 'vue'
 import { navigateTo } from "#app"
 import { LucideCalendar, LucideClock } from "lucide-vue-next"
 import DynamicModal from '~/components/ui/DynamicModal.vue'
+import PatientAppointmentCard from '~/components/appointment/PatientAppointmentCard.vue'
+import DoctorAppointmentCard from '~/components/appointment/DoctorAppointmentCard.vue'
 import type { Appointment } from '~/models/appointment.model'
 import type { Doctor } from '~/models/doctor.model'
-import { getStatusClass, formatDate, formatTime, getDoctorName } from '~/utils/appointment.utils'
+import type { Patient } from '~/models/patient.model'
 
 const authStore = useAuthStore()
-const { getAppointmentsByPatientId, confirmAppointment, cancelAppointment, appointments } = useAppointment()
-const { getDoctorById } = useDoctor()
+const { getPatientAppointments, getPatientById } = usePatient()
+const { getDoctorAppointments, getDoctorById } = useDoctor()
+const { confirmAppointment, cancelAppointment } = useAppointment()
 
+const allAppointments = ref<Appointment[]>([])
 const doctorCache = ref<Record<number, Doctor>>({})
+const patientCache = ref<Record<number, Patient>>({})
 const loading = ref(true)
 
 type ModalVariant = 'success' | 'warning' | 'error' | 'info'
@@ -151,29 +139,56 @@ const modalState = ref({
 const cancelReason = ref('')
 
 const sortedAppointments = computed(() => {
-  return [...appointments.value].sort((a, b) =>
+  return [...allAppointments.value].sort((a, b) =>
     new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime()
   )
 })
 
 const loadData = async () => {
-  if (!authStore.user?.patientId) {
+  if (!authStore.user?.profileId) {
     loading.value = false
     return
   }
   loading.value = true
   try {
-    await getAppointmentsByPatientId(authStore.user.patientId)
+    let result: Appointment[] | undefined = []
 
-    // Extraer IDs únicos de doctores
-    const doctorIds = [...new Set(appointments.value.map((apt: Appointment) => apt.doctorId))].filter((id): id is number => !!id)
+    if (authStore.user.userType === 'Paciente') {
+      result = await getPatientAppointments(authStore.user.profileId)
+    } else {
+      result = await getDoctorAppointments(authStore.user.profileId)
+    }
 
-    // Cargar info de los doctores que faltan en caché
-    for (const docId of doctorIds) {
-      if (!doctorCache.value[docId]) {
-        const doctor = await getDoctorById(docId)
-        if (doctor) {
-          doctorCache.value[docId] = doctor
+    if (result) {
+      allAppointments.value = result
+    } else {
+      allAppointments.value = []
+    }
+
+    if (authStore.user.userType === 'Paciente') {
+      // Extraer IDs únicos de doctores
+      const doctorIds = [...new Set(allAppointments.value.map((apt: Appointment) => apt.doctorId))].filter((id): id is number => !!id)
+
+      // Cargar info de los doctores que faltan en caché
+      for (const docId of doctorIds) {
+        if (!doctorCache.value[docId]) {
+          const doctor = await getDoctorById(docId)
+          if (doctor) {
+            doctorCache.value[docId] = doctor
+          }
+        }
+      }
+    } else {
+      // Extraer IDs únicos de pacientes
+      const patientIds = [...new Set(allAppointments.value.map((apt: Appointment) => apt.patientId))].filter((id): id is number => !!id)
+
+      // Cargar info de los pacientes
+      for (const patId of patientIds) {
+        if (!patientCache.value[patId]) {
+          const patient = await getPatientById(patId)
+          if (patient) {
+            patientCache.value[patId] = patient
+          }
         }
       }
     }
@@ -188,7 +203,7 @@ onMounted(() => {
   loadData()
 })
 
-// --- LÓGICA DE CONFIRMACIÓN ---
+// --- LÓGICA DE CONFIRMACION ---
 const confirmAppointmentAction = async (id: number) => {
   try {
     await confirmAppointment(id)
@@ -199,59 +214,59 @@ const confirmAppointmentAction = async (id: number) => {
   }
 }
 
-// --- LÓGICA DE CANCELACIÓN (48H RULES) ---
+// --- LÓGICA DE CANCELACIÓN ---
 const initiateCancel = (apt: Appointment) => {
-  const diffHours = (new Date(apt.appointmentDate).getTime() - new Date().getTime()) / (1000 * 60 * 60)
+  modalState.value = {
+    isOpen: true,
+    variant: 'warning',
+    title: '¿Cancelar Cita?',
+    description: 'Estás a punto de cancelar tu cita médica. Por favor, indica el motivo de la cancelación.',
+    type: 'cancel-reason',
+    showConfirm: true,
+    showCancel: true,
+    confirmText: 'Proceder con la Cancelación',
+    targetAppointmentId: apt.id
+  }
+  cancelReason.value = ''
+}
 
-  if (diffHours < 48) {
-    // Regla de Negocio: Restricción de 48 horas
-    showModal('warning', 'No se puede cancelar', 'No puedes cancelar una cita faltando 48 horas o menos para su realización. Por favor contacta al centro de atención si tienes una emergencia.', 'Lo Entiendo', false)
-  } else {
-    // Regla de Negocio: Permitir solicitando el motivo
-    cancelReason.value = ''
-    modalState.value = {
-      isOpen: true,
-      variant: 'error',
-      title: 'Cancelar Cita Médica',
-      description: '¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.',
-      type: 'cancel-reason',
-      showConfirm: true,
-      showCancel: true,
-      confirmText: 'Sí, Cancelar Definitivamente',
-      targetAppointmentId: apt.id
-    }
+const executeCancel = async () => {
+  if (!modalState.value.targetAppointmentId) return
+
+  if (cancelReason.value.trim().length < 5) {
+    alert("Por favor provee un motivo de cancelación más detallado.")
+    return
+  }
+
+  try {
+    await cancelAppointment(modalState.value.targetAppointmentId, cancelReason.value)
+    await loadData()
+    showModal('success', 'Cita Cancelada', 'La cita fue cancelada correctamente.', 'Aceptar')
+  } catch (error) {
+    showModal('error', 'Error', 'No se pudo cancelar la cita. Inténtalo nuevamente.')
   }
 }
 
-const handleModalConfirm = async () => {
-  if (modalState.value.type === 'cancel-reason' && modalState.value.targetAppointmentId) {
-    if (!cancelReason.value.trim()) {
-      alert("Por favor ingresa un motivo para poder cancelar.")
-      modalState.value.isOpen = true
-      return
-    }
-
-    try {
-      await cancelAppointment(modalState.value.targetAppointmentId, cancelReason.value)
-      await loadData()
-      showModal('success', 'Cita Cancelada', 'La cita fue cancelada exitosamente.', 'Aceptar')
-    } catch (e) {
-      showModal('error', 'Error', 'Hubo un problema cancelando la cita.')
-    }
-  }
-}
-
-const showModal = (variant: ModalVariant, title: string, description: string, confirmText = 'Aceptar', showCancel = false) => {
+// --- UTILS PARA MODAL ---
+const showModal = (variant: ModalVariant, title: string, description: string, confirmText = 'Aceptar', type = 'info') => {
   modalState.value = {
     isOpen: true,
     variant,
     title,
     description,
-    type: 'generic',
+    type,
     showConfirm: true,
-    showCancel,
+    showCancel: variant === 'warning',
     confirmText,
     targetAppointmentId: null
+  }
+}
+
+const handleModalConfirm = () => {
+  if (modalState.value.type === 'cancel-reason') {
+    executeCancel()
+  } else {
+    modalState.value.isOpen = false
   }
 }
 </script>

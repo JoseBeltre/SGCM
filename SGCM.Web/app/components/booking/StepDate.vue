@@ -62,7 +62,6 @@ const onDateSelected = (newDate: Date) => {
     date.value = isoDate
     // Reiniciamos la hora cuando el día cambia
     time.value = null
-    console.log('Selected date:', isoDate)
 
     emit('next')
   }

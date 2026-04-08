@@ -1,4 +1,5 @@
 import type { Patient } from "~/models/patient.model";
+import type { Appointment } from "~/models/appointment.model";
 import { useApiClient } from "./http/apiClient";
 
 export const usePatientService = () => {
@@ -14,8 +15,16 @@ export const usePatientService = () => {
     return await api(`/patient/user/${userId}`);
   };
 
+  // GET: Obtener citas del paciente
+  const getPatientAppointments = async (
+    patientId: number,
+  ): Promise<Appointment[]> => {
+    return await api(`/patient/${patientId}/appointments`);
+  };
+
   return {
     getPatientById,
     getPatientByUserId,
+    getPatientAppointments,
   };
 };

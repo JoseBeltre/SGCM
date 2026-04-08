@@ -1,3 +1,45 @@
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue'
+import { CalendarX, Clock } from 'lucide-vue-next'
+import { generateFilteredTimeSlots } from '~/utils/timeSlots'
+
+const emit = defineEmits(['next', 'prev'])
+const { doctor, date, time } = useBooking()
+const { getAppointmentsByDateAndDoctor, appointments } = useAppointment()
+const { availability, getDoctorAvailability } = useDoctor()
+
+const loadingTimeUI = ref(true)
+const availableTimeSlots = ref<string[]>([])
+
+onMounted(async () => {
+  if (!doctor.value || !date.value) {
+    emit('prev')
+    return
+  }
+
+  loadingTimeUI.value = true
+
+  try {
+    await getDoctorAvailability(doctor.value.id)
+    await getAppointmentsByDateAndDoctor(date.value, doctor.value.id)
+
+    availableTimeSlots.value = generateFilteredTimeSlots(
+      date.value,
+      availability.value,
+      appointments.value,
+      45 // 45 minutes fixed duration
+    )
+  } catch (error) {
+    console.error("Error loading time slots", error)
+  } finally {
+    loadingTimeUI.value = false
+  }
+})
+
+const selectTime = (selectedSlot: string) => {
+  time.value = selectedSlot
+}
+</script>
 <template>
   <div class="animate-in fade-in slide-in-from-right-4 duration-500">
     <div class="mb-6">
@@ -55,48 +97,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import { CalendarX, Clock } from 'lucide-vue-next'
-import { generateFilteredTimeSlots } from '~/utils/timeSlots'
-
-const emit = defineEmits(['next', 'prev'])
-const { doctor, date, time } = useBooking()
-const { getAppointmentsByDateAndDoctor, appointments } = useAppointment()
-const { availability, getDoctorAvailability } = useDoctor()
-
-const loadingTimeUI = ref(true)
-const availableTimeSlots = ref<string[]>([])
-
-onMounted(async () => {
-  if (!doctor.value || !date.value) {
-    emit('prev')
-    return
-  }
-
-  loadingTimeUI.value = true
-  
-  try {
-    await getDoctorAvailability(doctor.value.id)
-    await getAppointmentsByDateAndDoctor(date.value, doctor.value.id)
-    
-    // Leverage abstracted generator
-    availableTimeSlots.value = generateFilteredTimeSlots(
-      date.value, 
-      availability.value, 
-      appointments.value, 
-      45 // 45 minutes fixed duration
-    )
-  } catch (error) {
-    console.error("Error loading time slots", error)
-  } finally {
-    loadingTimeUI.value = false
-  }
-})
-
-const selectTime = (selectedSlot: string) => {
-  time.value = selectedSlot
-  console.log('Selected time:', selectedSlot)
-}
-</script>
