@@ -63,5 +63,15 @@ namespace SGCM.ApiWeb.Controllers
                 return NotFound(result.Message);
             return NoContent();
         }
+
+        // Ruta para reagendar una cita
+        [HttpPatch("{id:int}/reschedule")]
+        public async Task<IActionResult> Reschedule(int id, [FromBody] DateTime newDate)
+        {
+            var result = await _appointmentService.RescheduleAsync(id, newDate);
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+            return NoContent();
+        }
     }
 }

@@ -331,5 +331,43 @@ namespace SGCM.Application.Services
                 return OperationResult.Failure("An error occurred while completing the appointment.");
             }
         }
+
+        public async Task<OperationResult> RescheduleAsync(int id, DateTime newDate)
+        {
+            try
+            {
+                var canReschedule = await _domainService.CanBeRescheduledAsync(id, newDate);
+                if (!canReschedule.IsSuccess || !canReschedule.Data)
+                    return OperationResult.Failure(canReschedule.Message);
+
+                var existing = await _repository.GetByIdAsync(id);
+                if (!existing.IsSuccess || existing.Data == null)
+                    return OperationResult.Failure(existing.Message);
+
+                existing.Data.AppointmentDate = newDate;
+                existing.Data.UpdatedAt = DateTime.UtcNow;
+
+                var result = await _repository.UpdateAsync(existing.Data);
+                if (!result.IsSuccess)
+                    return OperationResult.Failure(result.Message);
+
+                await _auditLogService.RecordUpdateAsync(
+                    userId: existing.Data.PatientId,
+                    entityType: EntityType.Appointment,
+                    entityId: id,
+                    previousEntity: existing.Data,
+                    newEntity: result.Data,
+                    ipAddress: "",
+                    userAgent: "");
+
+                _logger.LogInformation("Appointment rescheduled with ID: {AppointmentId}", id);
+                return OperationResult.Success("Appointment rescheduled successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while rescheduling appointment with ID {AppointmentId}.", id);
+                return OperationResult.Failure("An error occurred while rescheduling the appointment.");
+            }
+        }
     }
 }
