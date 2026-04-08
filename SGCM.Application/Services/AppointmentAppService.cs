@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using SGCM.Application.DTOs.Appointment;
 using SGCM.Application.Interfaces;
 using SGCM.Application.Mappers;
@@ -204,6 +204,21 @@ namespace SGCM.Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while fetching appointments for doctor {DoctorId}.", doctorId);
+                return OperationResult<List<AppointmentDto>>.Failure("An error occurred while fetching appointments.");
+            }
+        }
+
+        public async Task<OperationResult<List<AppointmentDto>>> GetByDoctorAndDateAsync(int doctorId, DateTime date)
+        {
+            try
+            {
+                var result = await _repository.GetByDoctorAndDateAsync(doctorId, date);
+                var appointments = result.Data?.Select(AppointmentMapper.ToResponse).ToList();
+                return OperationResult<List<AppointmentDto>>.Success(appointments ?? new List<AppointmentDto>());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching appointments for doctor {DoctorId} on {Date}.", doctorId, date);
                 return OperationResult<List<AppointmentDto>>.Failure("An error occurred while fetching appointments.");
             }
         }

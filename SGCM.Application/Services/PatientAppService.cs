@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using SGCM.Application.DTOs.Patient;
 using SGCM.Application.Interfaces;
 using SGCM.Application.Mappers;
@@ -14,15 +14,18 @@ namespace SGCM.Application.Services
     {
         private readonly IPatientRepository _repository;
         private readonly IAuditLogDomainService _auditLogService;
+        private readonly IUserRepository _userRepository;
         private readonly ILogger<PatientAppService> _logger;
 
         public PatientAppService(
             IPatientRepository repository,
             IAuditLogDomainService auditLogService,
+            IUserRepository userRepository,
             ILogger<PatientAppService> logger)
         {
             _repository = repository;
             _auditLogService = auditLogService;
+            _userRepository = userRepository;
             _logger = logger;
         }
 
@@ -60,7 +63,8 @@ namespace SGCM.Application.Services
                     userAgent: "");
 
                 _logger.LogInformation("Patient created with ID: {PatientId}", result.Data.Id);
-                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data));
+                var userResult = await _userRepository.GetByIdAsync(result.Data.UserId);
+                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data, userResult.Data));
             }
             catch (Exception ex)
             {
@@ -77,7 +81,8 @@ namespace SGCM.Application.Services
                 if (!result.IsSuccess || result.Data == null)
                     return OperationResult<PatientDto>.Failure(result.Message);
 
-                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data));
+                var userResult = await _userRepository.GetByIdAsync(result.Data.UserId);
+                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data, userResult.Data));
             }
             catch (Exception ex)
             {
@@ -91,8 +96,12 @@ namespace SGCM.Application.Services
             try
             {
                 var result = await _repository.GetAllAsync();
-                var patients = result.Data?.Select(PatientMapper.ToResponse).ToList();
-                return OperationResult<List<PatientDto>>.Success(patients ?? new List<PatientDto>());
+                var patients = result.Data ?? new List<Patient>();
+                var usersResult = await _userRepository.GetAllAsync();
+                var users = usersResult.Data ?? new List<User>();
+                
+                var dtos = patients.Select(p => PatientMapper.ToResponse(p, users.FirstOrDefault(u => u.Id == p.UserId))).ToList();
+                return OperationResult<List<PatientDto>>.Success(dtos);
             }
             catch (Exception ex)
             {
@@ -131,7 +140,8 @@ namespace SGCM.Application.Services
                     userAgent: "");
 
                 _logger.LogInformation("Patient updated with ID: {PatientId}", result.Data.Id);
-                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data));
+                var userResult = await _userRepository.GetByIdAsync(result.Data.UserId);
+                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data, userResult.Data));
             }
             catch (Exception ex)
             {
@@ -178,11 +188,30 @@ namespace SGCM.Application.Services
                 if (!result.IsSuccess || result.Data == null)
                     return OperationResult<PatientDto>.Failure("Patient not found.");
 
-                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data));
+                var userResult = await _userRepository.GetByIdAsync(result.Data.UserId);
+                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data, userResult.Data));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while fetching patient by National ID.");
+                return OperationResult<PatientDto>.Failure("An error occurred while fetching the patient.");
+            }
+        }
+
+        public async Task<OperationResult<PatientDto>> GetByUserIdAsync(int userId)
+        {
+            try
+            {
+                var result = await _repository.GetByUserIdAsync(userId);
+                if (!result.IsSuccess || result.Data == null)
+                    return OperationResult<PatientDto>.Failure("Patient not found.");
+
+                var userResult = await _userRepository.GetByIdAsync(userId);
+                return OperationResult<PatientDto>.Success(PatientMapper.ToResponse(result.Data, userResult.Data));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching patient by User ID.");
                 return OperationResult<PatientDto>.Failure("An error occurred while fetching the patient.");
             }
         }
