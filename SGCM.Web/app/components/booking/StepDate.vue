@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <span v-if="doctor">Doctor seleccionado: {{ doctor.fullName }}</span>
-    <span v-else>No se ha seleccionado un doctor</span>
-    <h2 class="text-xl font-semibold mt-4 mb-2">Horario del Doctor</h2>
-    <h3 class="mb-4">Selecciona un día</h3>
-    
+  <div class="animate-in fade-in slide-in-from-right-4 duration-500">
+    <div class="mb-6">
+      <h2 class="title-primary">Día de la cita</h2>
+      <p class="text-muted">Selecciona un día dentro de la disponibilidad del Dr/a. <span class="highlight-primary">{{ doctor?.fullName || 'la especialidad' }}</span>.</p>
+    </div>
+
     <div class="flex justify-center max-w-sm mx-auto">
       <ClientOnly>
         <VueDatePicker
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import {VueDatePicker} from '@vuepic/vue-datepicker'
+import { VueDatePicker } from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 const emit = defineEmits(['next', 'prev'])
@@ -36,7 +36,7 @@ if (!doctor.value) {
   emit('prev')
 }
 
-// 0 is Sunday in JS and VueDatePicker
+// 0 es Domingo en JS y en VueDatePicker
 const dayMap: Record<string, number> = {
   'Domingo': 0,
   'Lunes': 1,
@@ -51,20 +51,20 @@ const allowedWeekdays = ref<number[]>([])
 const internalDate = ref<Date | null>(date.value ? new Date(`${date.value}T12:00:00`) : null)
 
 const isDateDisabled = (dateToValidate: Date): boolean => {
-  // If API hasn't loaded yet, or returned no availability, block everything
+  // Si la API no ha cargado, o no hay disponibilidad, bloqueamos todo
   if (allowedWeekdays.value.length === 0) return true;
   return !allowedWeekdays.value.includes(dateToValidate.getDay());
 }
 
 const onDateSelected = (newDate: Date) => {
   if (newDate) {
-    // Keep local timezone YYYY-MM-DD
+    // Mantenemos la zona horaria local retornando YYYY-MM-DD
     const isoDate = new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000).toISOString().split('T')[0] as string
     date.value = isoDate
-    // Reset time when day changes
+    // Reiniciamos la hora cuando el día cambia
     time.value = null
     console.log('Selected date:', isoDate)
-    
+
     emit('next')
   }
 }
@@ -75,24 +75,24 @@ onMounted(async () => {
       await getDoctorAvailability(doctor.value.id)
 
       if (!availability.value || !Array.isArray(availability.value)) {
-        console.warn('API did not return a valid array of availability')
+        console.warn('La API no retornó un arreglo válido de disponibilidad')
         return
       }
 
       const activeDays = availability.value
         .filter(slot => slot.isActive)
         .map(slot => slot.dayOfWeek)
-      
-      // JS integers representing the allowed days
+
+      // Enteros de JS que representan los días permitidos
       allowedWeekdays.value = [...new Set(activeDays)]
         .map(d => typeof d === 'number' ? d : dayMap[d as string])
         .filter((d): d is number => d !== undefined)
-        
+
     } catch (e) {
-      console.error("Error fetching doctor availability:", e)
+      console.error("Error obteniendo la disponibilidad del doctor:", e)
     }
   } else {
-    console.warn('No doctor selected in StepDate')
+    console.warn('No se ha seleccionado ningún doctor en StepDate')
   }
 })
 </script>

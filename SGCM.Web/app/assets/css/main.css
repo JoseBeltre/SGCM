@@ -1,17 +1,38 @@
-/* @import "tailwindcss"; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme static {
-  --font-sans: 'Public Sans', sans-serif;
+@layer components {
+  /* Common UI Classes requested by user for re-usability */
+  .title-primary {
+    @apply text-xl font-bold text-charcoal-brown-900;
+  }
+  .title-secondary {
+    @apply text-lg font-semibold text-charcoal-brown-800;
+  }
+  .text-muted {
+    @apply text-sm text-charcoal-brown-500;
+  }
+  .highlight-primary {
+    @apply font-semibold text-sky-reflection-700;
+  }
+  .highlight-secondary {
+    @apply inline-block bg-sky-reflection-100 text-sky-reflection-800 px-3 py-1 rounded-full text-sm font-semibold;
+  }
+}
 
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #00C16A;
-  --color-green-600: #00A155;
-  --color-green-700: #007F45;
-  --color-green-800: #016538;
-  --color-green-900: #0A5331;
-  --color-green-950: #052E16;
+:root {
+  /* VueDatePicker Overrides matching sky-reflection palette */
+  --dp-font-family: inherit;
+  --dp-primary-color: #3e93c1; /* sky-reflection-500 */
+  --dp-primary-text-color: #ffffff;
+  --dp-hover-color: #d8e9f3; /* sky-reflection-100 */
+  --dp-hover-text-color: #193b4d; /* sky-reflection-800 */
+  --dp-primary-disabled-color: #b2d4e6; /* sky-reflection-200 */
+  --dp-background-color: #ffffff;
+  --dp-text-color: #4c5049; /* charcoal-brown-700 */
+  --dp-border-color: #e5e7e4; /* charcoal-brown-100 */
+  --dp-menu-border-color: #e5e7e4; /* charcoal-brown-100 */
+  --dp-border-color-hover: #b2d4e6; /* sky-reflection-200 */
+  --dp-border-radius: 1rem;
 }

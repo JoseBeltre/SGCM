@@ -1,34 +1,65 @@
 <template>
-  <div>
-    <h2 class="text-xl font-semibold mb-2">Horas Disponibles</h2>
-    <div class="mb-4">
-      <span class="text-sm text-gray-500 block">Día seleccionado: {{ date }}</span>
+  <div class="animate-in fade-in slide-in-from-right-4 duration-500">
+    <div class="mb-6">
+      <h2 class="title-primary">Horarios Disponibles</h2>
+      <p class="text-muted">
+        Elige un bloque de 45 minutos para tu cita.
+      </p>
     </div>
-    
-    <div v-if="loadingTimeUI" class="text-gray-500">
-      Cargando horarios...
-    </div>
-    <div v-else>
-      <div v-if="availableTimeSlots.length === 0" class="text-gray-500">
-        No hay horarios disponibles para este día
+
+    <!-- UI Block: Check Date -->
+    <div v-if="!date" class="py-12 flex flex-col items-center justify-center text-center">
+      <div class="w-16 h-16 bg-charcoal-brown-50 rounded-full flex items-center justify-center mb-4">
+        <CalendarX class="w-8 h-8 text-charcoal-brown-300" />
       </div>
-      <div v-else class="grid grid-cols-3 gap-2">
-        <button 
-          v-for="timeSlot in availableTimeSlots" 
-          :key="timeSlot" 
-          class="border rounded p-2 text-center hover:bg-blue-50 focus:ring focus:ring-blue-200 transition" 
-          :class="{ 'bg-blue-100 border-blue-500': time === timeSlot }"
-          @click="selectTime(timeSlot)"
-        >
-          {{ timeSlot }}
-        </button>
+      <h3 class="title-secondary">Fecha pendiente</h3>
+      <p class="text-sm text-charcoal-brown-500 mt-1">Por favor regresa al paso anterior y selecciona una fecha válida.</p>
+    </div>
+
+    <div v-else>
+      <div class="mb-4">
+        <span class="highlight-secondary">
+          Día seleccionado: {{ date }}
+        </span>
+      </div>
+
+      <!-- Loading UI -->
+      <div v-if="loadingTimeUI" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div v-for="i in 6" :key="i" class="h-12 bg-charcoal-brown-100 rounded-full animate-pulse border border-charcoal-brown-200"></div>
+      </div>
+
+      <!-- Content -->
+      <div v-else>
+        <div v-if="availableTimeSlots.length === 0" class="py-12 flex flex-col items-center justify-center text-center bg-charcoal-brown-50 rounded-2xl border border-charcoal-brown-100">
+          <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm">
+            <Clock class="w-8 h-8 text-charcoal-brown-400" />
+          </div>
+          <h3 class="title-secondary">Sin horarios disponibles</h3>
+          <p class="text-sm text-charcoal-brown-500 mt-1 max-w-xs">No encontramos franjas horarias libres para este día, intenta seleccionar otra fecha.</p>
+        </div>
+
+        <div v-else class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[300px] overflow-y-auto pr-2 pb-4 scrollbar-thin scrollbar-thumb-charcoal-brown-200">
+          <button
+            v-for="(slot, idx) in availableTimeSlots"
+            :key="idx"
+            @click="selectTime(slot)"
+            :class="[
+              time === slot ? 'bg-honey-bronze-500 text-white font-bold shadow-md ring-2 ring-honey-bronze-200' : 'bg-white text-charcoal-brown-700 border border-charcoal-brown-200 hover:border-honey-bronze-300 hover:bg-honey-bronze-50 font-medium',
+              'py-3 px-4 rounded-full transition-all duration-200 focus:outline-none flex items-center justify-center'
+            ]"
+          >
+            {{ slot }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { DayOfWeek } from '~/models/availability.model'
+import { ref, onMounted } from 'vue'
+import { CalendarX, Clock } from 'lucide-vue-next'
+import { generateFilteredTimeSlots } from '~/utils/timeSlots'
 
 const emit = defineEmits(['next', 'prev'])
 const { doctor, date, time } = useBooking()
@@ -36,104 +67,6 @@ const { getAppointmentsByDateAndDoctor, appointments } = useAppointment()
 const { availability, getDoctorAvailability } = useDoctor()
 
 const loadingTimeUI = ref(true)
-
-const jsDayToEnum = [
-  'Domingo', 
-  'Lunes', 
-  'Martes', 
-  'Miércoles', 
-  'Jueves', 
-  'Viernes', 
-  'Sábado'
-]
-
-const parseTimeToMinutes = (value: string) => {
-  const normalizedValue = value.trim()
-  const isoDate = new Date(normalizedValue)
-
-  if (!Number.isNaN(isoDate.getTime()) && normalizedValue.includes('T')) {
-    return isoDate.getHours() * 60 + isoDate.getMinutes()
-  }
-
-  const match = normalizedValue.match(/^(\d{1,2}):(\d{2})(?::\d{2})?\s*(AM|PM)?$/i)
-
-  if (!match) {
-    return 0
-  }
-
-  let hours = Number(match[1])
-  const minutes = Number(match[2])
-  const meridiem = match[3]?.toUpperCase()
-
-  if (meridiem === 'PM' && hours < 12) {
-    hours += 12
-  }
-
-  if (meridiem === 'AM' && hours === 12) {
-    hours = 0
-  }
-
-  return hours * 60 + minutes
-}
-
-const formatMinutesToTime = (minutes: number) => {
-  const hours24 = Math.floor(minutes / 60) % 24
-  const mins = minutes % 60
-  const period = hours24 >= 12 ? 'PM' : 'AM'
-  const hours12 = hours24 % 12 || 12
-
-  return `${hours12}:${mins.toString().padStart(2, '0')} ${period}`
-}
-
-// Convert YYYY-MM-DD to DayOfWeek enum string
-const getDayOfWeekName = (dateStr: string) => {
-  // Ensure we append time to avoid timezone shifting
-  const d = new Date(`${dateStr}T12:00:00`)
-  return jsDayToEnum[d.getDay()]
-}
-
-// Helper to check if a specific timeblock overlaps an existing appointment
-const isOverlapping = (slotStartMin: number, slotEndMin: number) => {
-  if (!appointments.value) return false
-
-  return appointments.value.some(appt => {
-    const apptStartMin = parseTimeToMinutes(appt.appointmentDate)
-    const apptEndMin = apptStartMin + appt.durationMinutes
-
-    // Check overlap: slot starts before appt ends AND slot ends after appt starts
-    return slotStartMin < apptEndMin && slotEndMin > apptStartMin
-  })
-}
-
-const getFilteredTimeSlots = () => {
-  if (!date.value) return []
-
-  const d = new Date(`${date.value}T12:00:00`)
-  const dayNum = d.getDay()
-  const dayEnum = jsDayToEnum[dayNum]
-  const duration = 45 // 45 minutes fixed duration
-
-  // Gather all shift limits for the selected day
-  const slotsConfig = availability.value
-    .filter(slot => (slot.dayOfWeek === dayEnum || (slot.dayOfWeek as unknown as number) === dayNum) && slot.isActive)
-  
-  const generatedSlots: string[] = []
-
-  for (const config of slotsConfig) {
-    const startMinutes = parseTimeToMinutes(config.startTime)
-    const endMinutes = parseTimeToMinutes(config.endTime)
-
-    for (let currentMinutes = startMinutes; (currentMinutes + duration) <= endMinutes; currentMinutes += duration) {
-      // Ensure we don't present slots that are already booked
-      if (!isOverlapping(currentMinutes, currentMinutes + duration)) {
-        generatedSlots.push(formatMinutesToTime(currentMinutes))
-      }
-    }
-  }
-
-  return [...new Set(generatedSlots)].sort((left, right) => parseTimeToMinutes(left) - parseTimeToMinutes(right))
-}
-
 const availableTimeSlots = ref<string[]>([])
 
 onMounted(async () => {
@@ -143,18 +76,27 @@ onMounted(async () => {
   }
 
   loadingTimeUI.value = true
-  // Fetch everything needed since composables use local refs instead of useState
-  await getDoctorAvailability(doctor.value.id)
-  await getAppointmentsByDateAndDoctor(date.value, doctor.value.id)
   
-  availableTimeSlots.value = getFilteredTimeSlots()
-  loadingTimeUI.value = false
+  try {
+    await getDoctorAvailability(doctor.value.id)
+    await getAppointmentsByDateAndDoctor(date.value, doctor.value.id)
+    
+    // Leverage abstracted generator
+    availableTimeSlots.value = generateFilteredTimeSlots(
+      date.value, 
+      availability.value, 
+      appointments.value, 
+      45 // 45 minutes fixed duration
+    )
+  } catch (error) {
+    console.error("Error loading time slots", error)
+  } finally {
+    loadingTimeUI.value = false
+  }
 })
 
 const selectTime = (selectedSlot: string) => {
   time.value = selectedSlot
   console.log('Selected time:', selectedSlot)
-  // Optional auto-advance
-  // emit('next')
 }
 </script>
