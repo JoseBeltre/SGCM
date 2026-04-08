@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using SGCM.Application.DTOs.Authentication;
 using SGCM.Application.Interfaces.Authentication;
@@ -28,7 +28,7 @@ namespace SGCM.ApiWeb.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, result.Data.Id.ToString()),
                 new Claim(ClaimTypes.Name, result.Data.FullName),
-                new Claim(ClaimTypes.Role, result.Data.UserType.ToString())
+                new Claim(ClaimTypes.Role, result.Data.UserType)
             }, "Cookies")));
 
             return Ok(result.Data);
@@ -42,12 +42,12 @@ namespace SGCM.ApiWeb.Controllers
             if (!result.IsSuccess)
                 return Unauthorized(result.Message);
 
-            var user = result.Data;
+            var session = result.Data;
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.FullName),
-                new Claim(ClaimTypes.Role, user.UserType.ToString())
+                new Claim(ClaimTypes.NameIdentifier, session.Id.ToString()),
+                new Claim(ClaimTypes.Name, session.FullName),
+                new Claim(ClaimTypes.Role, session.UserType)
             };
 
             var identity = new ClaimsIdentity(claims, "Cookies");
@@ -55,7 +55,21 @@ namespace SGCM.ApiWeb.Controllers
 
             await HttpContext.SignInAsync("Cookies", principal);
 
-            return Ok(user);
+            return Ok(session);
+        }
+
+        [HttpGet("me")]
+        public async Task<IActionResult> GetSession()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                return Unauthorized();
+
+            var result = await _authService.GetSessionAsync(userId);
+            if (!result.IsSuccess)
+                return Unauthorized();
+
+            return Ok(result.Data);
         }
 
         [HttpPost("logout")]
