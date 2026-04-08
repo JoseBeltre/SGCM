@@ -83,5 +83,16 @@ namespace SGCM.Persistence.Repositories
                 .ToListAsync();
             return OperationResult<List<Doctor>>.Success(doctors);
         }
+
+        public async Task<OperationResult<Doctor?>> GetByUserIdAsync(int userId)
+        {
+            var doctor = await _context.Doctors
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+            
+            if (doctor == null)
+                return OperationResult<Doctor?>.Failure("Doctor not found.");
+            
+            return OperationResult<Doctor?>.Success(doctor);
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace SGCM.Domain.Repository
         Task<OperationResult<Doctor?>> GetByNationalIdAsync(string nationalId);
         Task<OperationResult<List<Doctor>>> GetActiveAsync();
         Task<OperationResult<List<Doctor>>> GetDoctorsBySpecialtyIdAsync(int specialtyId);
+        Task<OperationResult<Doctor?>> GetByUserIdAsync(int userId);
     }
 }

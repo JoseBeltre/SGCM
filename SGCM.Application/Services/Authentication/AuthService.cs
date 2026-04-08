@@ -14,45 +14,53 @@ namespace SGCM.Application.Services.Authentication
     {
         private readonly IUserRepository _userRepository;
         private readonly IPatientRepository _patientRepository;
+        private readonly IDoctorRepository _doctorRepository;
 
-        public AuthService(IUserRepository repository, IPatientRepository patientRepository)
+        public AuthService(IUserRepository repository, IPatientRepository patientRepository, IDoctorRepository doctorRepository)
         {
             _userRepository = repository;
             _patientRepository = patientRepository;
+            _doctorRepository = doctorRepository;
         }
 
         public async Task<OperationResult<AuthSessionDto>> LoginAsync(LoginDto loginDto)
         {
             var user = await _userRepository.GetByEmailAsync(loginDto.Email);
             if (!user.IsSuccess || user.Data == null)
-                return OperationResult<AuthSessionDto>.Failure("Credenciales inválidas.");
+                return OperationResult<AuthSessionDto>.Failure("Credenciales inv�lidas.");
 
             if (!user.Data.IsActive)
                 return OperationResult<AuthSessionDto>.Failure("Este usuario se encuentra inactivo.");
 
             if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Data.PasswordHash))
-                return OperationResult<AuthSessionDto>.Failure("Credenciales inválidas.");
+                return OperationResult<AuthSessionDto>.Failure("Credenciales inv�lidas.");
 
-            string? nationalId = null;
-            int? patientId = null;
+            int profileId = 0;
+
             if (user.Data.UserType == UserType.Paciente)
             {
                 var patient = await _patientRepository.GetByUserIdAsync(user.Data.Id);
                 if (patient.IsSuccess && patient.Data != null)
                 {
-                    nationalId = patient.Data.NationalId;
-                    patientId = patient.Data.Id;
+                    profileId = patient.Data.Id;
+                }
+            }
+            else if (user.Data.UserType == UserType.Medico)
+            {
+                var doctor = await _doctorRepository.GetByUserIdAsync(user.Data.Id);
+                if (doctor.IsSuccess && doctor.Data != null)
+                {
+                    profileId = doctor.Data.Id;
                 }
             }
 
             return OperationResult<AuthSessionDto>.Success(new AuthSessionDto
             {
                 Id = user.Data.Id,
-                PatientId = patientId,
+                ProfileId = profileId,
                 FullName = user.Data.FullName,
                 Email = user.Data.Email,
-                UserType = user.Data.UserType.ToString(),
-                NationalId = nationalId
+                UserType = user.Data.UserType.ToString()
             });
         }
 
@@ -62,10 +70,9 @@ namespace SGCM.Application.Services.Authentication
             if (emailExists.Data)
                 return OperationResult<AuthSessionDto>.Failure("El correo ya se encuentra registrado.");
 
-            // Validar que la cédula no esté registrada para evitar violaciones de clave única (Unique Key UK_Patient_NationalId)
             var patientExists = await _patientRepository.GetByNationalIdAsync(dto.NationalId);
             if (patientExists.IsSuccess && patientExists.Data != null)
-                return OperationResult<AuthSessionDto>.Failure("El documento de identidad o cédula ya se encuentra registrado.");
+                return OperationResult<AuthSessionDto>.Failure("El documento de identidad o c�dula ya se encuentra registrado.");
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
@@ -102,11 +109,10 @@ namespace SGCM.Application.Services.Authentication
             return OperationResult<AuthSessionDto>.Success(new AuthSessionDto
             {
                 Id = userResult.Data.Id,
-                PatientId = patientResult.Data.Id,
+                ProfileId = patientResult.Data.Id,
                 FullName = userResult.Data.FullName,
                 Email = userResult.Data.Email,
-                UserType = userResult.Data.UserType.ToString(),
-                NationalId = patient.NationalId
+                UserType = userResult.Data.UserType.ToString()
             });
         }
 
@@ -116,26 +122,32 @@ namespace SGCM.Application.Services.Authentication
             if (!user.IsSuccess || user.Data == null || !user.Data.IsActive)
                 return OperationResult<AuthSessionDto>.Failure("Session invalid or user inactive");
 
-            string? nationalId = null;
-            int? patientId = null;
+            int profileId = 0;
+
             if (user.Data.UserType == UserType.Paciente)
             {
                 var patient = await _patientRepository.GetByUserIdAsync(user.Data.Id);
                 if (patient.IsSuccess && patient.Data != null)
                 {
-                    nationalId = patient.Data.NationalId;
-                    patientId = patient.Data.Id;
+                    profileId = patient.Data.Id;
+                }
+            }
+            else if (user.Data.UserType == UserType.Medico)
+            {
+                var doctor = await _doctorRepository.GetByUserIdAsync(user.Data.Id);
+                if (doctor.IsSuccess && doctor.Data != null)
+                {
+                    profileId = doctor.Data.Id;
                 }
             }
 
             return OperationResult<AuthSessionDto>.Success(new AuthSessionDto
             {
                 Id = user.Data.Id,
-                PatientId = patientId,
+                ProfileId = profileId,
                 FullName = user.Data.FullName,
                 Email = user.Data.Email,
-                UserType = user.Data.UserType.ToString(),
-                NationalId = nationalId
+                UserType = user.Data.UserType.ToString()
             });
         }
     }
