@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SGCM.Application.DTOs.Appointment;
 using SGCM.Application.Interfaces;
 
@@ -21,6 +21,16 @@ namespace SGCM.ApiWeb.Controllers
             var result = await _appointmentService.GetByIdAsync(id);
             if (!result.IsSuccess)
                 return NotFound(result.Message);
+            return Ok(result.Data);
+        }
+
+        // Ruta para obtener citas de un doctor por fecha
+        [HttpGet("doctor/{doctorId:int}/date/{date}")]
+        public async Task<IActionResult> GetByDoctorAndDate(int doctorId, DateTime date)
+        {
+            var result = await _appointmentService.GetByDoctorAndDateAsync(doctorId, date);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
             return Ok(result.Data);
         }
 
