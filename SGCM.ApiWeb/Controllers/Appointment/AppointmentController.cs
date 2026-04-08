@@ -24,9 +24,9 @@ namespace SGCM.ApiWeb.Controllers
             return Ok(result.Data);
         }
 
-        // Ruta para obtener citas de un doctor por fecha
-        [HttpGet("doctor/{doctorId:int}/date/{date}")]
-        public async Task<IActionResult> GetByDoctorAndDate(int doctorId, DateTime date)
+        // Ruta para buscar citas filtrando por doctor y fecha
+        [HttpGet]
+        public async Task<IActionResult> GetByDoctorAndDate([FromQuery] int doctorId, [FromQuery] DateTime date)
         {
             var result = await _appointmentService.GetByDoctorAndDateAsync(doctorId, date);
             if (!result.IsSuccess)
