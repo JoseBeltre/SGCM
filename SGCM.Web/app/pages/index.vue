@@ -84,8 +84,8 @@
 
               <!-- Acciones -->
               <div class="space-y-2 border-t border-charcoal-brown-50 pt-4"
-                v-if="apt.status === 'Pendiente' || apt.status === 'Confirmada'">
-                <button v-if="apt.status === 'Pendiente'" @click="confirmAppointmentAction(apt.id)"
+                v-if="apt.status === 'Solicitada' || apt.status === 'Confirmada'">
+                <button v-if="apt.status === 'Solicitada'" @click="confirmAppointmentAction(apt.id)"
                   class="w-full text-center py-2 bg-palm-leaf-100 text-palm-leaf-800 hover:bg-palm-leaf-200 rounded-xl font-bold transition-colors text-sm">
                   Confirmar Asistencia
                 </button>

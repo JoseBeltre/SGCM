@@ -19,7 +19,7 @@ export interface CreateAppointment {
 }
 
 export enum AppointmentStatus {
-    Pendiente = 'Pendiente',
+    Solicitada = 'Solicitada',
     Confirmada = 'Confirmada',
     Cancelada = 'Cancelada',
     Completada = 'Completada'
