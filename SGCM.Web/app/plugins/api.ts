@@ -13,7 +13,8 @@ export default defineNuxtPlugin(() => {
 
     onResponseError({ response }) {
       if (response.status === 400) {
-        const message = response._data?.message || "Datos inválidos";
+        console.log('eta e la repueta', response);
+        const message = response._data || "Datos inválidos";
         throw new Error(message);
       }
 

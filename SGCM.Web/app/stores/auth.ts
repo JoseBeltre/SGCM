@@ -29,6 +29,8 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (e: any) {
       if (e.name === 'FetchError' && !e.response) {
         error.value = 'El servidor no está disponible en este momento.';
+      } else if (e.message === 'Unauthorized') {
+        error.value = 'Credenciales inválidas';
       } else {
         error.value = e.message || 'Credenciales inválidas';
       }

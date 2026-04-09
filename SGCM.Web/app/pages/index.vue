@@ -114,6 +114,10 @@ import type { Doctor } from '~/models/doctor.model'
 import type { Patient } from '~/models/patient.model'
 import { canModifyAppointment } from '~/utils/appointment.utils'
 
+useHead({
+  title: 'Inicio'
+})
+
 const authStore = useAuthStore()
 const { getPatientAppointments, getPatientById } = usePatient()
 const { getDoctorAppointments, getDoctorById } = useDoctor()

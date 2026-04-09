@@ -9,6 +9,10 @@ import DynamicModal from '~/components/ui/DynamicModal.vue'
 import { useRouter } from '#app'
 import { parseTimeToMinutes } from '~/utils/timeSlots'
 
+useHead({
+  title: 'Agendar Cita'
+})
+
 const step = ref(1)
 const steps = ['Especialidad', 'Doctor', 'Fecha', 'Hora']
 
