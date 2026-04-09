@@ -82,7 +82,12 @@ import { ref } from 'vue'
 import { loginSchema } from '~/schemas/auth.schema'
 import { navigateTo } from '#app'
 
-definePageMeta({layout: 'auth'})
+definePageMeta({
+  layout: 'auth',
+})
+useHead({
+  title: 'Iniciar Sesión'
+})
 
 const authStore = useAuthStore()
 

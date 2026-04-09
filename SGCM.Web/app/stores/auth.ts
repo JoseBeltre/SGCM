@@ -27,7 +27,13 @@ export const useAuthStore = defineStore('auth', () => {
       router.push('/')
       return true
     } catch (e: any) {
-      error.value = e.data || 'Credenciales inválidas'
+      if (e.name === 'FetchError' && !e.response) {
+        error.value = 'El servidor no está disponible en este momento.';
+      } else if (e.message === 'Unauthorized') {
+        error.value = 'Credenciales inválidas';
+      } else {
+        error.value = e.message || 'Credenciales inválidas';
+      }
       return false
     } finally {
       loading.value = false
@@ -47,7 +53,11 @@ export const useAuthStore = defineStore('auth', () => {
       router.push('/')
       return true
     } catch (e: any) {
-      error.value = e.data || 'Error al registrar la cuenta'
+      if (e.name === 'FetchError' && !e.response) {
+        error.value = 'El servidor no está disponible en este momento.';
+      } else {
+        error.value = e.message || 'Error al registrar la cuenta';
+      }
       return false
     } finally {
       loading.value = false

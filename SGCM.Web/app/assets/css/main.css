@@ -19,6 +19,14 @@
   .highlight-secondary {
     @apply inline-block bg-sky-reflection-100 text-sky-reflection-800 px-3 py-1 rounded-full text-sm font-semibold;
   }
+
+  /* Appointment Action Buttons */
+  .btn-appointment-confirm {
+    @apply w-full text-center py-2 bg-palm-leaf-100 text-palm-leaf-800 hover:bg-palm-leaf-200 rounded-lg font-semibold leading-4 transition-colors text-sm;
+  }
+  .btn-appointment-cancel {
+    @apply w-full text-center py-2 bg-white border border-red-200 text-red-600 hover:bg-red-50 rounded-lg font-semibold leading-4 transition-colors text-sm;
+  }
 }
 
 :root {

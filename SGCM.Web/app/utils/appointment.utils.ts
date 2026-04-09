@@ -49,3 +49,11 @@ export const getPatientName = (
     ? patientCache[patientId].fullName
     : "Cargando...";
 };
+
+export const canModifyAppointment = (appointmentDateStr: string): boolean => {
+  const appointmentDate = new Date(appointmentDateStr);
+  const now = new Date();
+  const timeDifference = appointmentDate.getTime() - now.getTime();
+  const hoursDifference = timeDifference / (1000 * 3600);
+  return hoursDifference >= 48;
+};
