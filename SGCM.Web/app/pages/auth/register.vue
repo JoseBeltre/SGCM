@@ -119,8 +119,12 @@ import { ref } from 'vue'
 import { registerSchema } from '~/schemas/auth.schema'
 import { navigateTo } from '#app'
 
-definePageMeta({ layout: 'auth' })
-
+definePageMeta({
+  layout: 'auth',
+})
+useHead({
+  title: 'Registrarse'
+})
 
 const authStore = useAuthStore()
 

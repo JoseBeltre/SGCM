@@ -77,7 +77,7 @@
             <template v-else>
               <DoctorAppointmentCard v-for="apt in sortedAppointments" :key="apt.id"
                 :appointment="apt"
-                :patientCache="patientCache" />
+                :patientCache="patientCache" @confirm="confirmAppointmentAction" @cancel="initiateCancel" />
             </template>
           </div>
         </div>
@@ -112,6 +112,11 @@ import DoctorAppointmentCard from '~/components/appointment/DoctorAppointmentCar
 import type { Appointment } from '~/models/appointment.model'
 import type { Doctor } from '~/models/doctor.model'
 import type { Patient } from '~/models/patient.model'
+import { canModifyAppointment } from '~/utils/appointment.utils'
+
+useHead({
+  title: 'Inicio'
+})
 
 const authStore = useAuthStore()
 const { getPatientAppointments, getPatientById } = usePatient()
@@ -217,6 +222,8 @@ const confirmAppointmentAction = async (id: number) => {
 
 // --- LÓGICA DE CANCELACIÓN ---
 const initiateCancel = (apt: Appointment) => {
+  if (!canModifyAppointment(apt.appointmentDate)) return
+
   modalState.value = {
     isOpen: true,
     variant: 'warning',

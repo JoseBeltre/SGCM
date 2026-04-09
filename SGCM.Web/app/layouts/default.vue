@@ -21,14 +21,6 @@
               <button @click="authStore.logout"
                 class="text-xs font-semibold bg-charcoal-brown-100 text-charcoal-brown-700 px-3 py-1.5 rounded-full hover:bg-charcoal-brown-200 transition-colors ml-2">Salir</button>
             </template>
-            <template v-else>
-              <button
-                class="text-sm font-medium text-charcoal-brown-600 hover:text-sky-reflection-600 transition-colors hidden sm:block"
-                @click="navigateTo('/auth/login')">Iniciar Sesión</button>
-              <button
-                class="text-sm font-semibold bg-sky-reflection-500 text-white px-4 py-2 rounded-full hover:bg-sky-reflection-600 hover:shadow-md transition-all"
-                @click="navigateTo('/auth/register')">Registrarse</button>
-            </template>
           </div>
         </div>
       </div>
