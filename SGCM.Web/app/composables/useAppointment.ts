@@ -18,12 +18,12 @@ export function useAppointment() {
     error.value = null;
 
     try {
-      const response =
-        await appointmentService.createAppointment(appointmentData);
+      const response = await appointmentService.createAppointment(appointmentData);
       appointment.value = response;
       return response;
-    } catch (err) {
-      error.value = "Error al crear la cita";
+    } catch (err: any) {
+      error.value = err.message || null;
+      return undefined;
     } finally {
       loading.value = false;
     }
@@ -35,12 +35,11 @@ export function useAppointment() {
     loading.value = true;
     error.value = null;
     try {
-      const response =
-        await appointmentService.getAppointmentById(appointmentId);
+      const response = await appointmentService.getAppointmentById(appointmentId);
       appointment.value = response;
       return response;
     } catch (err) {
-      error.value = "Error al obtener la cita";
+      return undefined;
     } finally {
       loading.value = false;
     }
@@ -60,7 +59,7 @@ export function useAppointment() {
       appointments.value = response;
       return response;
     } catch (err) {
-      error.value = "Error al obtener las citas";
+      return undefined;
     } finally {
       loading.value = false;
     }
@@ -74,8 +73,8 @@ export function useAppointment() {
     try {
       await appointmentService.confirmAppointment(appointmentId);
       return true;
-    } catch (err) {
-      error.value = "Error al confirmar la cita";
+    } catch (err: any) {
+      error.value = err.message || null;
       return false;
     } finally {
       loading.value = false;
@@ -91,8 +90,8 @@ export function useAppointment() {
     try {
       await appointmentService.cancelAppointment(appointmentId, reason);
       return true;
-    } catch (err) {
-      error.value = "Error al cancelar la cita";
+    } catch (err: any) {
+      error.value = err.message || null;
       return false;
     } finally {
       loading.value = false;
@@ -108,8 +107,8 @@ export function useAppointment() {
     try {
       await appointmentService.rescheduleAppointment(appointmentId, newDate);
       return true;
-    } catch (err) {
-      error.value = "Error al reagendar la cita";
+    } catch (err: any) {
+      error.value = err.message || null;
       return false;
     } finally {
       loading.value = false;
