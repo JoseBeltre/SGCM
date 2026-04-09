@@ -3,21 +3,26 @@ export default defineNuxtPlugin(() => {
     baseURL: "http://localhost:5055/api",
     credentials: "include",
 
-    onRequest({ options }) {
-      options.headers = {
-        ...options.headers,
-      };
-    },
-
-    // Manejo global de errores
     onResponseError({ response }) {
+      let message = "Error inesperado";
+
       if (response.status === 401) {
-        console.error("No autorizado");
+        message = "No autorizado. Inicia sesión.";
       }
 
-      if (response.status === 500) {
-        console.error("Error del servidor");
+      if (response.status === 400) {
+        message = response._data?.message || "Datos inválidos";
       }
+
+      if (response.status === 404) {
+        message = "Recurso no encontrado";
+      }
+
+      if (response.status === 500 || response.status === 502 || response.status === 503 || response.status === 504) {
+        message = "Error del servidor";
+      }
+
+      throw new Error(message);
     },
   });
 

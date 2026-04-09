@@ -251,6 +251,21 @@ const executeCancel = async () => {
   }
 }
 
+// --- UTILS PARA MODAL ---
+const showModal = (variant: ModalVariant, title: string, description: string, confirmText = 'Aceptar', type = 'info') => {
+  modalState.value = {
+    isOpen: true,
+    variant,
+    title,
+    description,
+    type,
+    showConfirm: true,
+    showCancel: variant === 'warning',
+    confirmText,
+    targetAppointmentId: null
+  }
+}
+
 const handleModalConfirm = () => {
   if (modalState.value.type === 'cancel-reason') {
     executeCancel()
