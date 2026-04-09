@@ -99,6 +99,23 @@ export function useAppointment() {
     }
   };
 
+  const rescheduleAppointment = async (
+    appointmentId: number,
+    newDate: string,
+  ): Promise<boolean> => {
+    loading.value = true;
+    error.value = null;
+    try {
+      await appointmentService.rescheduleAppointment(appointmentId, newDate);
+      return true;
+    } catch (err) {
+      error.value = "Error al reagendar la cita";
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     appointment,
     appointments,
@@ -109,5 +126,6 @@ export function useAppointment() {
     getAppointmentsByDateAndDoctor,
     confirmAppointment,
     cancelAppointment,
+    rescheduleAppointment,
   };
 }

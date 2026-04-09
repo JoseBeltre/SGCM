@@ -51,11 +51,24 @@ export const useAppointmentService = () => {
     });
   };
 
+  // PATCH: Reagendar cita
+  const rescheduleAppointment = async (
+    appointmentId: number,
+    newDate: string,
+  ): Promise<void> => {
+    return await api(`/appointment/${appointmentId}/reschedule`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newDate),
+    });
+  };
+
   return {
     createAppointment,
     getAppointmentById,
     getAppointmentsByDateAndDoctor,
     cancelAppointment,
     confirmAppointment,
+    rescheduleAppointment,
   };
 };
