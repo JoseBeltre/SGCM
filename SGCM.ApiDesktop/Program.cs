@@ -31,4 +31,20 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// Seed missing User ID 1 for database trigger "tr_Appointments_TrackChanges"
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<SGCM.Persistence.Context.AppDbContext>();
+    var user1Exists = await db.Users.AnyAsync(u => u.Id == 1);
+    if (!user1Exists)
+    {
+        await db.Database.ExecuteSqlRawAsync(
+            "SET IDENTITY_INSERT Users ON; " +
+            "INSERT INTO dbo.Users (UserId, FullName, Email, PasswordHash, UserType, IsActive, CreatedAt) " +
+            "VALUES (1, 'System Auto', 'system@auto.local', 'none', 'Administrador', 1, GETDATE()); " +
+            "SET IDENTITY_INSERT Users OFF;");
+    }
+}
+
 app.Run();

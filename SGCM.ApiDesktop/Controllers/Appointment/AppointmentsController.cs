@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SGCM.Application.DTOs.Appointment;
 using SGCM.Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace SGCM.Api.Controllers
 {
@@ -52,26 +53,59 @@ namespace SGCM.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AddAppointmentDto dto)
+        public async Task<IActionResult> Create([FromBody] AddAppointmentDto dto, [FromServices] SGCM.Persistence.Context.AppDbContext dbContext)
         {
-            var result = await _appointmentAppService.CreateAsync(dto);
-            if (!result.IsSuccess)
-                return BadRequest(result.Message);
-            return Ok(result.Data);
+            var conn = dbContext.Database.GetDbConnection();
+            bool wasClosed = conn.State == System.Data.ConnectionState.Closed;
+            if (wasClosed) await conn.OpenAsync();
+            try
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "EXEC sp_set_session_context N'UserId', 1";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                var result = await _appointmentAppService.CreateAsync(dto);
+                if (!result.IsSuccess) return BadRequest(result.Message);
+                return Ok(result.Data);
+            }
+            finally
+            {
+                if (wasClosed) await conn.CloseAsync();
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateAppointmentDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateAppointmentDto dto, [FromServices] SGCM.Persistence.Context.AppDbContext dbContext)
         {
-            var result = await _appointmentAppService.UpdateAsync(id, dto);
-            if (!result.IsSuccess)
-                return BadRequest(result.Message);
-            return Ok(result.Data);
+            var conn = dbContext.Database.GetDbConnection();
+            bool wasClosed = conn.State == System.Data.ConnectionState.Closed;
+            if (wasClosed) await conn.OpenAsync();
+            try
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "EXEC sp_set_session_context N'UserId', 1";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                var result = await _appointmentAppService.UpdateAsync(id, dto);
+                if (!result.IsSuccess) return BadRequest(result.Message);
+                return Ok(result.Data);
+            }
+            finally
+            {
+                if (wasClosed) await conn.CloseAsync();
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, [FromServices] SGCM.Persistence.Context.AppDbContext dbContext)
         {
+            await Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRawAsync(
+                dbContext.Database, "EXEC sp_set_session_context N'UserId', 1");
+
             var result = await _appointmentAppService.DeleteAsync(id);
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
@@ -79,30 +113,75 @@ namespace SGCM.Api.Controllers
         }
 
         [HttpPatch("{id}/confirm")]
-        public async Task<IActionResult> Confirm(int id)
+        public async Task<IActionResult> Confirm(int id, [FromServices] SGCM.Persistence.Context.AppDbContext dbContext)
         {
-            var result = await _appointmentAppService.ConfirmAsync(id);
-            if (!result.IsSuccess)
-                return BadRequest(result.Message);
-            return Ok(result.Message);
+            var conn = dbContext.Database.GetDbConnection();
+            bool wasClosed = conn.State == System.Data.ConnectionState.Closed;
+            if (wasClosed) await conn.OpenAsync();
+            try
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "EXEC sp_set_session_context N'UserId', 1";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                var result = await _appointmentAppService.ConfirmAsync(id);
+                if (!result.IsSuccess) return BadRequest(result.Message);
+                return Ok(result.Message);
+            }
+            finally
+            {
+                if (wasClosed) await conn.CloseAsync();
+            }
         }
 
         [HttpPatch("{id}/cancel")]
-        public async Task<IActionResult> Cancel(int id, [FromBody] RemoveAppointmentDto dto)
+        public async Task<IActionResult> Cancel(int id, [FromBody] RemoveAppointmentDto dto, [FromServices] SGCM.Persistence.Context.AppDbContext dbContext)
         {
-            var result = await _appointmentAppService.CancelAsync(id, dto.CancellationReason);
-            if (!result.IsSuccess)
-                return BadRequest(result.Message);
-            return Ok(result.Message);
+            var conn = dbContext.Database.GetDbConnection();
+            bool wasClosed = conn.State == System.Data.ConnectionState.Closed;
+            if (wasClosed) await conn.OpenAsync();
+            try
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "EXEC sp_set_session_context N'UserId', 1";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                var result = await _appointmentAppService.CancelAsync(id, dto?.CancellationReason ?? "Motivo no especificado");
+                if (!result.IsSuccess) return BadRequest(result.Message);
+                return Ok(result.Message);
+            }
+            finally
+            {
+                if (wasClosed) await conn.CloseAsync();
+            }
         }
 
         [HttpPatch("{id}/complete")]
-        public async Task<IActionResult> Complete(int id)
+        public async Task<IActionResult> Complete(int id, [FromServices] SGCM.Persistence.Context.AppDbContext dbContext)
         {
-            var result = await _appointmentAppService.CompleteAsync(id);
-            if (!result.IsSuccess)
-                return BadRequest(result.Message);
-            return Ok(result.Message);
+            var conn = dbContext.Database.GetDbConnection();
+            bool wasClosed = conn.State == System.Data.ConnectionState.Closed;
+            if (wasClosed) await conn.OpenAsync();
+            try
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "EXEC sp_set_session_context N'UserId', 1";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                var result = await _appointmentAppService.CompleteAsync(id);
+                if (!result.IsSuccess) return BadRequest(result.Message);
+                return Ok(result.Message);
+            }
+            finally
+            {
+                if (wasClosed) await conn.CloseAsync();
+            }
         }
     }
 }

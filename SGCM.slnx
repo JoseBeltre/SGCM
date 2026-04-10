@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/API/">
+    <Project Path="SGCM.ApiDesktop/SGCM.ApiDesktop.csproj" />
     <Project Path="SGCM.ApiWeb/SGCM.ApiWeb.csproj" Id="2bf2e69d-0d3b-4bc0-aec8-41a58fdec567" />
   </Folder>
   <Folder Name="/Application/">
@@ -8,6 +9,9 @@
   <Folder Name="/Core/">
     <Project Path="SGCM.Domain/SGCM.Domain.csproj" />
     <Project Path="SGCM.Model/SGCM.Model.csproj" />
+  </Folder>
+  <Folder Name="/Desktop/">
+    <Project Path="SGCM.Desktop/SGCM.Desktop.csproj" />
   </Folder>
   <Folder Name="/Infraestructure/">
     <Project Path="SGCM.Infraestructure/SGCM.Infraestructure.csproj" />
