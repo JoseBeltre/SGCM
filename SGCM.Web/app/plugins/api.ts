@@ -13,28 +13,31 @@ export default defineNuxtPlugin(() => {
 
     onResponseError({ response }) {
       if (response.status === 400) {
-        console.log('eta e la repueta', response);
         const message = response._data || "Datos inválidos";
         throw new Error(message);
       }
 
       if (response.status === 401) {
-        toast.warning("No autorizado. Por favor inicia sesión.");
+        const message = response._data || "No autorizado";
+        toast.warning(message);
         throw Error("Unauthorized");
       }
 
       if (response.status === 404) {
-        toast.info("El recurso solicitado no fue encontrado.");
+        const message = response._data || "Recurso no encontrado";
+        toast.info(message);
         throw Error("Not found");
       }
 
       if (response.status >= 500) {
-        toast.error("Error inesperado en el servidor. Intente más tarde.");
+        const message = response._data || "Error inesperado en el servidor. Intente más tarde.";
+        toast.error(message);
         throw Error("Server error");
       }
 
       // Default fallback
-      toast.error("Ocurrió un error inesperado al contactar con el sistema.");
+      const message = response._data || "Ocurrió un error inesperado al contactar con el sistema.";
+      toast.error(message);
       throw new Error("Unexpected API error");
     },
   });
